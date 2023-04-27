@@ -2,6 +2,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
 import LoginForm from './components/LoginForm';
 import { MainProvider } from './contexts/MainContext';
+import RegisterationForm from './components/RegisterationForm';
 
 const App = () => {
   return (

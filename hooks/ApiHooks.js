@@ -14,7 +14,6 @@ const doFetch = async(url, options) => {
 
 const useAuthentication = () => {
   const postLogin = async(userCredentials) => {
-    console.log("working,", userCredentials);
     const options = {
       method:"post",
       headers: {
@@ -33,6 +32,36 @@ const useAuthentication = () => {
   return {postLogin};
 }
 
+const useUser = () => {
+
+  const checkUser = async(userName) => {
+    try {
+      const userAvailability = await doFetch(baseUrl + "users/username/" + userName)
+      return userAvailability.available
+    } catch (error) {
+      console.log("checkUser:", error.message)
+    }
+  }
+
+  const registerUser = async(userDetails) => {
+    const options = {
+      method: 'post',
+      headers: {
+        'Content-type' : 'application/json'
+      },
+      body: JSON.stringify(userDetails),
+    }
+    try {
+      const registerResult = await doFetch(baseUrl + "users", options)
+      return registerResult;
+    } catch (error) {
+      console.log("registerUser:", error.message)
+    }
+  }
+  return {checkUser, registerUser};
+}
+
 export {
   useAuthentication,
+  useUser,
 }

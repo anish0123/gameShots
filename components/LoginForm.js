@@ -1,4 +1,4 @@
-import {Dimensions, TextInput, View} from 'react-native';
+import {Dimensions, ScrollView, TextInput, View} from 'react-native';
 import {Text} from 'react-native';
 import {Controller, useForm} from 'react-hook-form';
 import {Button, Input} from '@rneui/themed';
@@ -34,11 +34,13 @@ const LoginForm = () => {
       setUser(loginResult.user);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
-    <View
+    <ScrollView
       style={{
         marginTop: 30,
         marginBottom: 30,
@@ -115,9 +117,9 @@ const LoginForm = () => {
           marginHorizontal: Dimensions.get('screen').width / 5,
         }}
       >
-        Log In!
+        Register!
       </Button>
-    </View>
+    </ScrollView>
   );
 };
 
