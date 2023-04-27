@@ -1,22 +1,23 @@
 import {StyleSheet, Text, View} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
+import LoginForm from './components/LoginForm';
+import { MainProvider } from './contexts/MainContext';
 
 const App = () => {
   return (
-    <>
+    <MainProvider>
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
+        <LoginForm />
       </View>
       <StatusBar style="auto" />
-    </>
+    </MainProvider>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
+    backgroundColor: '#000',
     justifyContent: 'center',
   },
 });
