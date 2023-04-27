@@ -6,10 +6,10 @@ const MainContext = React.createContext({});
 
 const MainProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [update, setUpdate] = useState(true);
   const [updateComment, setUpdateComment] = useState(true);
   const [updateLike, setUpdateLike] = useState(true);
   const [user, setUser] = useState({});
+  const [update, setUpdate] = useState(true)
 
   return (
     <MainContext.Provider

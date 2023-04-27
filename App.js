@@ -3,12 +3,14 @@ import {StatusBar} from 'expo-status-bar';
 import LoginForm from './components/LoginForm';
 import { MainProvider } from './contexts/MainContext';
 import RegisterationForm from './components/RegisterationForm';
+import Login from './views/Login';
+import Navigator from './navigators/Navigator';
 
 const App = () => {
   return (
     <MainProvider>
       <View style={styles.container}>
-        <LoginForm />
+        <Navigator />
       </View>
       <StatusBar style="auto" />
     </MainProvider>

@@ -1,4 +1,6 @@
-import { baseUrl } from "../utils/Variables";
+import { useContext, useEffect } from "react";
+import { MainContext } from "../contexts/MainContext";
+import { appId, baseUrl } from "../utils/Variables";
 
 const doFetch = async(url, options) => {
   const response = await fetch(url,options);
@@ -43,6 +45,19 @@ const useUser = () => {
     }
   }
 
+  const checkUserByToken = async(token) => {
+    const options = {
+      method : 'GET',
+      headers: {'x-access-token': token},
+    };
+    try {
+      const user = await doFetch(baseUrl + "users/user", options)
+      return user;
+    } catch (error) {
+      console.log("checkUserByToken", error.message)
+    }
+  }
+
   const registerUser = async(userDetails) => {
     const options = {
       method: 'post',
@@ -58,10 +73,45 @@ const useUser = () => {
       console.log("registerUser:", error.message)
     }
   }
-  return {checkUser, registerUser};
+  return {checkUser, registerUser, checkUserByToken};
+}
+
+const useMedia = () => {
+  const [mediaArray, setMediaArray] = useState([])
+  const {update, user} = useContext(MainContext);
+
+  const loadMedia = async() => {
+    try {
+      const media = await useTag.getFilesByTag(appId)
+
+      setMediaArray(media.reverse());
+    } catch (error) {
+      console.log("loadMedia: ", error.message)
+    }
+  }
+  useEffect(() => {
+    loadMedia()
+  },[update])
+  return {loadMedia, mediaArray}
+
+
+}
+
+
+const useTag = () => {
+  const getFilesByTag = async (tag) => {
+    try {
+      return await doFetch(baseUrl + 'tags/' + tag);
+    } catch (error) {
+      throw new Error('getFilesByTag', error.message);
+    }
+  }
+  return {getFilesByTag}
 }
 
 export {
   useAuthentication,
   useUser,
+  useMedia,
+  useTag,
 }

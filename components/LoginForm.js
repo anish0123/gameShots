@@ -117,7 +117,7 @@ const LoginForm = () => {
           marginHorizontal: Dimensions.get('screen').width / 5,
         }}
       >
-        Register!
+        Log in!
       </Button>
     </ScrollView>
   );
