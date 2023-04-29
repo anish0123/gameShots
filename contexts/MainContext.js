@@ -9,7 +9,7 @@ const MainProvider = (props) => {
   const [updateComment, setUpdateComment] = useState(true);
   const [updateLike, setUpdateLike] = useState(true);
   const [user, setUser] = useState({});
-  const [update, setUpdate] = useState(true)
+  const [update, setUpdate] = useState(true);
 
   return (
     <MainContext.Provider

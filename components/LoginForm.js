@@ -2,17 +2,16 @@ import {Dimensions, ScrollView, TextInput, View} from 'react-native';
 import {Text} from 'react-native';
 import {Controller, useForm} from 'react-hook-form';
 import {Button, Input} from '@rneui/themed';
-import { useContext, useState } from 'react';
-import { MainContext } from '../contexts/MainContext';
-import {useAuthentication} from "../hooks/ApiHooks";
+import {useContext, useState} from 'react';
+import {MainContext} from '../contexts/MainContext';
+import {useAuthentication} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const {postLogin} = useAuthentication();
-  const {setIsLoggedIn, setUser} = useContext(MainContext)
-   const {
+  const {setIsLoggedIn, setUser} = useContext(MainContext);
+  const {
     control,
     handleSubmit,
     formState: {errors},
@@ -23,13 +22,13 @@ const LoginForm = () => {
     },
   });
 
-  const logIn = async(logInData) => {
+  const logIn = async (logInData) => {
     setLoading(true);
-    console.log("Login Button pressed");
-    console.log(logInData)
+    console.log('Login Button pressed');
+    console.log(logInData);
     try {
       const loginResult = await postLogin(logInData);
-      console.log("loginResult: ", loginResult);
+      console.log('loginResult: ', loginResult);
       await AsyncStorage.setItem('userToken', loginResult.token);
       setUser(loginResult.user);
     } catch (error) {
@@ -37,7 +36,7 @@ const LoginForm = () => {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
     <ScrollView
@@ -45,7 +44,7 @@ const LoginForm = () => {
         marginTop: 30,
         marginBottom: 30,
         flexDirection: 'column',
-        alignContent: "center",
+        alignContent: 'center',
       }}
     >
       <Controller
@@ -104,11 +103,10 @@ const LoginForm = () => {
       <Button
         buttonStyle={{
           borderWidth: 1,
-         backgroundColor: "#97EF53",
+          backgroundColor: '#97EF53',
           borderRadius: 5,
-
         }}
-        onPress={handleSubmit(logIn) }
+        onPress={handleSubmit(logIn)}
         type="outline"
         titleStyle={{color: 'black', fontSize: 20}}
         containerStyle={{
