@@ -1,12 +1,23 @@
-import {Text} from '@rneui/themed';
-import {View} from 'react-native';
+import {FlatList} from 'react-native';
+import PropTypes from 'prop-types';
+import {useMedia} from '../hooks/ApiHooks';
+import ListItem from './ListItem';
 
-const List = () => {
+const List = ({navigation}) => {
+  const {mediaArray} = useMedia();
   return (
-    <View>
-      <Text>This is list page</Text>
-    </View>
+    <FlatList
+      data={mediaArray}
+      keyExtractor={(item, index) => index.toString()}
+      renderItem={({item}) => (
+        <ListItem navigation={navigation} singleItem={item} />
+      )}
+    />
   );
+};
+
+List.propTypes = {
+  navigation: PropTypes.object,
 };
 
 export default List;

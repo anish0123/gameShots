@@ -83,8 +83,8 @@ const useMedia = () => {
 
   const loadMedia = async () => {
     try {
-      const media = await useTag.getFilesByTag(appId);
-
+      // const media = await useTag().getFilesByTag(appId);
+      const media = await doFetch(baseUrl + 'media');
       setMediaArray(media.reverse());
     } catch (error) {
       console.log('loadMedia: ', error.message);
@@ -99,6 +99,7 @@ const useMedia = () => {
 const useTag = () => {
   const getFilesByTag = async (tag) => {
     try {
+      console.log('getGilesByTag working');
       return await doFetch(baseUrl + 'tags/' + tag);
     } catch (error) {
       throw new Error('getFilesByTag', error.message);
