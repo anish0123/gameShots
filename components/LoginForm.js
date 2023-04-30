@@ -1,5 +1,4 @@
-import {Dimensions, ScrollView, TextInput, View} from 'react-native';
-import {Text} from 'react-native';
+import {Dimensions, ScrollView} from 'react-native';
 import {Controller, useForm} from 'react-hook-form';
 import {Button, Input} from '@rneui/themed';
 import {useContext, useState} from 'react';
@@ -31,6 +30,7 @@ const LoginForm = () => {
       console.log('loginResult: ', loginResult);
       await AsyncStorage.setItem('userToken', loginResult.token);
       setUser(loginResult.user);
+      setIsLoggedIn(true);
     } catch (error) {
       console.log(error);
     } finally {
@@ -45,6 +45,7 @@ const LoginForm = () => {
         marginBottom: 30,
         flexDirection: 'column',
         alignContent: 'center',
+        backgroundColor: '#000',
       }}
     >
       <Controller

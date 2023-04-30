@@ -29,7 +29,7 @@ const Login = () => {
     userCheck();
   }, []);
   return (
-    <View>
+    <View style={{backgroundColor: '#000'}}>
       {toggleForm ? <LoginForm /> : <RegisterationForm />}
       <View
         style={{

@@ -1,16 +1,13 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
-import LoginForm from './components/LoginForm';
-import { MainProvider } from './contexts/MainContext';
-import RegisterationForm from './components/RegisterationForm';
-import Login from './views/Login';
+import {MainProvider} from './contexts/MainContext';
 import Navigator from './navigators/Navigator';
 
 const App = () => {
   return (
     <MainProvider>
       <View style={styles.container}>
-        <Navigator />
+        <Navigator style={{backgroundColor: '#000'}} />
       </View>
       <StatusBar style="auto" />
     </MainProvider>
