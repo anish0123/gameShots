@@ -5,6 +5,7 @@ import {Video} from 'expo-av';
 import {useRef} from 'react';
 import {Image, StyleSheet} from 'react-native';
 
+// ListItem component created for displaying list of posts
 const ListItem = ({navigation, singleItem}) => {
   const video = useRef(null);
   console.log('description:', singleItem.description.review);
