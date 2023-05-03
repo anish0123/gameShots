@@ -9,14 +9,13 @@ import {Image, StyleSheet} from 'react-native';
 const ListItem = ({navigation, singleItem}) => {
   const item = singleItem;
   const video = useRef(null);
-  console.log('thumbnail:', item.thumbnails);
   return (
     <Card>
       <Text>{item.title}</Text>
       <Text>{item.description}</Text>
       {item.media_type === 'image' ? (
         <Image
-          source={{uri: uploadsUrl + item.filename}}
+          source={{uri: uploadsUrl + item.thumbnails?.w640}}
           style={styles.image}
         />
       ) : (

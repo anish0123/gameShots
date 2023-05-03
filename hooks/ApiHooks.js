@@ -1,6 +1,6 @@
 import {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
-import {appId, baseUrl} from '../utils/Variables';
+import {baseUrl} from '../utils/Variables';
 
 const doFetch = async (url, options) => {
   const response = await fetch(url, options);
@@ -77,23 +77,49 @@ const useUser = () => {
   return {checkUser, registerUser, checkUserByToken};
 };
 
+// Method for fetching, uploading and editing posts from backend
 const useMedia = () => {
   const [mediaArray, setMediaArray] = useState([]);
-  const {update, user} = useContext(MainContext);
+  const {update} = useContext(MainContext);
 
   const loadMedia = async () => {
     try {
       // const media = await useTag().getFilesByTag(appId);
-      const media = await doFetch(baseUrl + 'media');
-      setMediaArray(media.reverse());
+      const json = await doFetch(baseUrl + 'media');
+      const media = await Promise.all(
+        json.map(async (file) => {
+          const fileResponse = await fetch(baseUrl + 'media/' + file.file_id);
+          return await fileResponse.json();
+        })
+      );
+      setMediaArray(media);
     } catch (error) {
       console.log('loadMedia: ', error.message);
     }
   };
+
+  const postMedia = async (token, fileData) => {
+    console.log('postMedia:', token);
+    const options = {
+      method: 'post',
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'multipart/form-data',
+      },
+      body: fileData,
+    };
+    try {
+      const uploadResult = await doFetch(baseUrl + 'media', options);
+      return uploadResult;
+    } catch (error) {
+      console.log('postMedia: ', error.message);
+    }
+  };
+
   useEffect(() => {
     loadMedia();
   }, [update]);
-  return {loadMedia, mediaArray};
+  return {loadMedia, postMedia, mediaArray};
 };
 
 const useTag = () => {

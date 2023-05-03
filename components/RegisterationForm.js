@@ -39,7 +39,6 @@ const RegisterationForm = () => {
     try {
       const registerResult = await registerUser(userDetails);
       return registerResult;
-      console.log('register successful:', registerResult);
     } catch (error) {
       console.log('register: ', error.message);
     } finally {
@@ -217,6 +216,7 @@ const RegisterationForm = () => {
         }}
         onPress={handleSubmit(register)}
         type="outline"
+        loading={loading}
         titleStyle={{color: 'black', fontSize: 20}}
         containerStyle={{
           padding: 10,

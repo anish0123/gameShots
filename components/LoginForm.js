@@ -109,6 +109,7 @@ const LoginForm = () => {
         }}
         onPress={handleSubmit(logIn)}
         type="outline"
+        loading={loading}
         titleStyle={{color: 'black', fontSize: 20}}
         containerStyle={{
           padding: 10,
