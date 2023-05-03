@@ -1,16 +1,19 @@
 import {Button, Card, Input} from '@rneui/themed';
-import {Controller, set, useForm} from 'react-hook-form';
-import {ScrollView, View} from 'react-native';
+import {Controller, useForm} from 'react-hook-form';
+import {Image, ScrollView, View} from 'react-native';
 import {useMedia} from '../hooks/ApiHooks';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useRef, useState} from 'react';
+import {useContext, useRef, useState} from 'react';
 import {Video} from 'expo-av';
+import PropTypes from 'prop-types';
+import {MainContext} from '../contexts/MainContext';
 
-const Upload = () => {
+const Upload = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [mediaFile, setMediaFile] = useState({});
   const {postMedia} = useMedia();
+  const {setUpdate, update} = useContext(MainContext);
   const video = useRef(null);
   const {
     control,
@@ -56,7 +59,7 @@ const Upload = () => {
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('description', data.description);
-    console.log('uploadFile: ', formData);
+    console.log('uploadFile');
     const fileName = mediaFile.uri.split('/').pop();
     let fileExt = fileName.split('.').pop();
     if (fileExt == 'jpg') fileExt = 'jpeg';
@@ -72,6 +75,8 @@ const Upload = () => {
       console.log('token:', token);
       const uploadResult = await postMedia(token, formData);
       console.log('uploadResult: ', uploadResult);
+      setUpdate(!update);
+      navigation.navigate('Home');
     } catch (error) {
       console.log('uploadFile: ', error.message);
     }
@@ -174,12 +179,19 @@ const Upload = () => {
           <Button style={{paddingRight: 50}} onPress={resetValues}>
             Reset
           </Button>
-          <Button onPress={handleSubmit(uploadFile)} loading={loading}>
+          <Button
+            onPress={handleSubmit(uploadFile)}
+            loading={loading}
+            disabled={!mediaFile.uri || errors.title || errors.description}
+          >
             Upload
           </Button>
         </View>
       </Card>
     </ScrollView>
   );
+};
+Upload.propTypes = {
+  navigation: PropTypes.object,
 };
 export default Upload;
