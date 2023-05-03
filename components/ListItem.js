@@ -7,21 +7,22 @@ import {Image, StyleSheet} from 'react-native';
 
 // ListItem component created for displaying list of posts
 const ListItem = ({navigation, singleItem}) => {
+  const item = singleItem;
   const video = useRef(null);
-  console.log('description:', singleItem.description.review);
+  console.log('thumbnail:', item.thumbnails);
   return (
     <Card>
-      <Text>{singleItem.title}</Text>
-      <Text>{singleItem.description}</Text>
-      {singleItem.media_type === 'image' ? (
+      <Text>{item.title}</Text>
+      <Text>{item.description}</Text>
+      {item.media_type === 'image' ? (
         <Image
-          source={{uri: uploadsUrl + singleItem.thumbnails?.w640}}
+          source={{uri: uploadsUrl + item.filename}}
           style={styles.image}
         />
       ) : (
         <Video
           ref={video}
-          source={{uri: uploadsUrl + singleItem.filename}}
+          source={{uri: uploadsUrl + item.filename}}
           style={{width: '100%', height: 500}}
           resizeMode="cover"
           useNativeControls
