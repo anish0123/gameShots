@@ -9,6 +9,7 @@ import {Video} from 'expo-av';
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContext';
 
+// THis view is created to upload pictures to the server
 const Upload = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [mediaFile, setMediaFile] = useState({});
