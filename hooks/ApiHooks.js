@@ -116,10 +116,34 @@ const useMedia = () => {
     }
   };
 
+  const searchMedia = async (token, searchDetails) => {
+    console.log('searchDeails: ', searchDetails);
+    const options = {
+      method: 'post',
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(searchDetails),
+    };
+    try {
+      const json = await doFetch(baseUrl + 'media/search', options);
+      const searchResult = await Promise.all(
+        json.map(async (file) => {
+          const fileResponse = await fetch(baseUrl + 'media/' + file.file_id);
+          return await fileResponse.json();
+        })
+      );
+      return searchResult;
+    } catch (error) {
+      console.log('searchMedia: ', error.message);
+    }
+  };
+
   useEffect(() => {
     loadMedia();
   }, [update]);
-  return {loadMedia, postMedia, mediaArray};
+  return {loadMedia, postMedia, searchMedia, mediaArray};
 };
 
 const useTag = () => {

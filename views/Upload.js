@@ -1,6 +1,6 @@
 import {Button, Card, Input} from '@rneui/themed';
 import {Controller, useForm} from 'react-hook-form';
-import {Image, ScrollView, View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {useMedia} from '../hooks/ApiHooks';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
