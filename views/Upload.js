@@ -1,18 +1,20 @@
 import {Button, Card, Input} from '@rneui/themed';
 import {Controller, useForm} from 'react-hook-form';
 import {ScrollView, View} from 'react-native';
-import {useMedia} from '../hooks/ApiHooks';
+import {useMedia, useTag} from '../hooks/ApiHooks';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useContext, useRef, useState} from 'react';
 import {Video} from 'expo-av';
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContext';
+import {appId} from '../utils/Variables';
 
 const Upload = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [mediaFile, setMediaFile] = useState({});
   const {postMedia} = useMedia();
+  const {postTag} = useTag();
   const {setUpdate, update} = useContext(MainContext);
   const video = useRef(null);
   const {
@@ -74,9 +76,17 @@ const Upload = ({navigation}) => {
       const token = await AsyncStorage.getItem('userToken');
       console.log('token:', token);
       const uploadResult = await postMedia(token, formData);
+
+      const appTag = {
+        file_id: uploadResult.file_id,
+        tag: appId,
+      };
+      const tagResult = await postTag(token, appTag);
       console.log('uploadResult: ', uploadResult);
+      console.log('tagResult: ', tagResult);
       setUpdate(!update);
       navigation.navigate('Home');
+      resetValues();
     } catch (error) {
       console.log('uploadFile: ', error.message);
     }
@@ -84,7 +94,7 @@ const Upload = ({navigation}) => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor: '#000000'}}>
       <Card>
         {mediaFile.type == 'video' ? (
           <Video

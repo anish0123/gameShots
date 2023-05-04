@@ -1,6 +1,6 @@
 import {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
-import {baseUrl} from '../utils/Variables';
+import {appId, baseUrl} from '../utils/Variables';
 
 const doFetch = async (url, options) => {
   const response = await fetch(url, options);
@@ -85,14 +85,14 @@ const useMedia = () => {
   const loadMedia = async () => {
     try {
       // const media = await useTag().getFilesByTag(appId);
-      const json = await doFetch(baseUrl + 'media');
+      const json = await useTag().getFilesByTag(appId);
       const media = await Promise.all(
         json.map(async (file) => {
           const fileResponse = await fetch(baseUrl + 'media/' + file.file_id);
           return await fileResponse.json();
         })
       );
-      setMediaArray(media);
+      setMediaArray(media.reverse());
     } catch (error) {
       console.log('loadMedia: ', error.message);
     }
@@ -152,10 +152,26 @@ const useTag = () => {
       console.log('getGilesByTag working');
       return await doFetch(baseUrl + 'tags/' + tag);
     } catch (error) {
-      throw new Error('getFilesByTag', error.message);
+      console.log('getFilesByTag', error.message);
     }
   };
-  return {getFilesByTag};
+
+  const postTag = async (token, tag) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(tag),
+    };
+    try {
+      return await doFetch(baseUrl + 'tags', options);
+    } catch (error) {
+      console.log('postTag: ', error.message);
+    }
+  };
+  return {getFilesByTag, postTag};
 };
 
 export {useAuthentication, useUser, useMedia, useTag};
