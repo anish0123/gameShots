@@ -1,12 +1,25 @@
-import {Text} from '@rneui/themed';
-import {View} from 'react-native';
+import {FlatList} from 'react-native';
+import PropTypes from 'prop-types';
+import SingleUserPost from './SingleUserPost';
 
-const UserPostList = () => {
+const UserPostList = ({navigation, mediaArray, owner}) => {
   return (
-    <View>
-      <Text>FlatList will be implemented</Text>
-    </View>
+    <FlatList
+      data={mediaArray}
+      estimatedItemSize={200}
+      numColumns={2}
+      keyExtractor={(item, index) => index.toString()}
+      renderItem={({item}) => (
+        <SingleUserPost navigation={navigation} item={item} />
+      )}
+    />
   );
+};
+
+UserPostList.propTypes = {
+  mediaArray: PropTypes.array,
+  owner: PropTypes.object,
+  navigation: PropTypes.object,
 };
 
 export default UserPostList;

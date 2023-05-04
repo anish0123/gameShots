@@ -1,14 +1,16 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Card, Text} from '@rneui/themed';
 import {useContext, useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {SafeAreaView, View} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
 import {useMedia, useTag, useUser} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/Variables';
+import PropTypes from 'prop-types';
+import UserPostList from '../components/UserPostList';
 
-const Profile = () => {
+const Profile = ({navigation, myFilesOnly = true}) => {
   const {checkUserByToken} = useUser();
-  const {mediaArray} = useMedia();
+  const {mediaArray} = useMedia(myFilesOnly);
   const [currentUser, setCurrentUser] = useState({});
   const {user} = useContext(MainContext);
   const {getFilesByTag} = useTag();
@@ -61,7 +63,7 @@ const Profile = () => {
   }, [mediaArray]);
 
   return (
-    <View style={{backgroundColor: '#000000'}}>
+    <SafeAreaView style={{backgroundColor: '#000000'}}>
       <Card.Image
         source={{uri: uploadsUrl + background}}
         style={{height: 220}}
@@ -176,8 +178,20 @@ const Profile = () => {
           </View>
         </View>
       </Card>
-    </View>
+      <View style={{height: 300}}>
+        <UserPostList
+          navigation={navigation}
+          mediaArray={mediaArray}
+          owner={currentUser}
+        />
+      </View>
+    </SafeAreaView>
   );
+};
+
+Profile.propTypes = {
+  navigation: PropTypes.object,
+  myFilesOnly: PropTypes.bool,
 };
 
 export default Profile;

@@ -78,14 +78,17 @@ const useUser = () => {
 };
 
 // Method for fetching, uploading and editing posts from backend
-const useMedia = () => {
+const useMedia = (myFilesOnly) => {
   const [mediaArray, setMediaArray] = useState([]);
-  const {update} = useContext(MainContext);
+  const {update, user} = useContext(MainContext);
 
   const loadMedia = async () => {
     try {
       // const media = await useTag().getFilesByTag(appId);
-      const json = await useTag().getFilesByTag(appId);
+      let json = await useTag().getFilesByTag(appId);
+      if (myFilesOnly) {
+        json = json.filter((file) => file.user_id === user.user_id);
+      }
       const media = await Promise.all(
         json.map(async (file) => {
           const fileResponse = await fetch(baseUrl + 'media/' + file.file_id);
