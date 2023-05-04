@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: Platform.OS === 'android' ? 30 : 0,
     marginTop: 0,
+    backgroundColor: '#000000',
   },
 });
 

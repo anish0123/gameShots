@@ -4,7 +4,7 @@ import List from '../components/List';
 
 const Home = ({navigation}) => {
   return (
-    <View>
+    <View style={{backgroundColor: '#000000'}}>
       <List navigation={navigation} />
     </View>
   );
