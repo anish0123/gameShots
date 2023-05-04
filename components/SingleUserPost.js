@@ -4,7 +4,6 @@ import {Dimensions, View} from 'react-native';
 import {uploadsUrl} from '../utils/Variables';
 
 const SingleUserPost = ({navigation, item}) => {
-  console.log('singleUserPost: ', item.thumbnails?.w640);
   return (
     <View>
       {item.media_type === 'image' ? (

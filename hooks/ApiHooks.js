@@ -74,7 +74,23 @@ const useUser = () => {
       console.log('registerUser:', error.message);
     }
   };
-  return {checkUser, registerUser, checkUserByToken};
+
+  const getUserById = async (token, id) => {
+    const options = {
+      method: 'GET',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    try {
+      const user = await doFetch(baseUrl + 'users/' + id, options);
+      return user;
+    } catch (error) {
+      console.log('getUserById: ', error.message);
+    }
+  };
+
+  return {checkUser, registerUser, checkUserByToken, getUserById};
 };
 
 // Method for fetching, uploading and editing posts from backend
@@ -152,7 +168,6 @@ const useMedia = (myFilesOnly) => {
 const useTag = () => {
   const getFilesByTag = async (tag) => {
     try {
-      console.log('getGilesByTag working');
       return await doFetch(baseUrl + 'tags/' + tag);
     } catch (error) {
       console.log('getFilesByTag', error.message);
@@ -177,4 +192,52 @@ const useTag = () => {
   return {getFilesByTag, postTag};
 };
 
-export {useAuthentication, useUser, useMedia, useTag};
+const useFavourite = () => {
+  const postFavourite = async (token, fileId) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({file_id: fileId}),
+    };
+    try {
+      const favourite = await doFetch(baseUrl + 'favourites', options);
+      return favourite;
+    } catch (error) {
+      console.log('postFavourite: ', error.message);
+    }
+  };
+
+  const deleteFavourite = async (token, fileId) => {
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    try {
+      const result = await doFetch(
+        baseUrl + 'favourites/file/' + fileId,
+        options
+      );
+      return result;
+    } catch (error) {
+      console.log('deleteFavourite: ', error.message);
+    }
+  };
+
+  const getFavourites = async (fileId) => {
+    try {
+      const result = await doFetch(baseUrl + 'favourites/file/' + fileId);
+      return result;
+    } catch (error) {
+      console.log('deleteFavourite: ', error.message);
+    }
+  };
+
+  return {postFavourite, deleteFavourite, getFavourites};
+};
+
+export {useAuthentication, useUser, useMedia, useTag, useFavourite};
