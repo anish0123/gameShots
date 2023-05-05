@@ -2,7 +2,6 @@ import {useContext} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import Home from '../views/Home';
 import Login from '../views/Login';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Icon} from '@rneui/themed';
@@ -12,7 +11,6 @@ import Search from '../views/Search';
 import Single from '../views/Single';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
-const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -21,7 +19,17 @@ const DrawerScreen = () => {
     <Drawer.Navigator
       screenOptions={{
         drawerStyle: {
-          marginTop: 50,
+          paddingTop: 50,
+          backgroundColor: '#000000',
+        },
+
+        drawerItemStyle: {
+          paddingTop: 10,
+          height: 60,
+        },
+        drawerLabelStyle: {
+          fontSize: 20,
+          color: '#ffffff',
         },
       }}
     >
@@ -29,74 +37,33 @@ const DrawerScreen = () => {
         name="Home"
         component={Home}
         options={{
-          drawerIcon: ({color}) => <Icon name="home" color={color} />,
+          drawerIcon: () => <Icon name="home" color="#ffffff" />,
         }}
       />
       <Drawer.Screen
         name="Profile"
         component={Profile}
         options={{
-          drawerIcon: ({color}) => <Icon name="person" color={color} />,
+          drawerIcon: () => <Icon name="person" color="#ffffff" />,
         }}
       />
       <Drawer.Screen
         name="Search"
         component={Search}
         options={{
-          drawerIcon: ({color}) => <Icon name="search" color={color} />,
+          drawerIcon: () => <Icon name="search" color="#ffffff" />,
         }}
       />
       <Drawer.Screen
         name="Upload"
         component={Upload}
         options={{
-          drawerIcon: ({color}) => <Icon name="cloud-upload" color={color} />,
+          drawerIcon: () => <Icon name="cloud-upload" color="#ffffff" />,
         }}
       />
     </Drawer.Navigator>
   );
 };
-
-/*
-const TabScreen = () => {
-  return (
-    <Tab.Navigator
-      screenOptions={({route}) => ({
-        headerShown: false,
-      })}
-    >
-      <Tab.Screen
-        name="Home"
-        component={Home}
-        options={{
-          tabBarIcon: ({color}) => <Icon name="home" color={color} />,
-        }}
-      />
-      <Tab.Screen
-        name="Search"
-        component={Search}
-        options={{
-          tabBarIcon: ({color}) => <Icon name="search" color={color} />,
-        }}
-      />
-      <Tab.Screen
-        name="Upload"
-        component={Upload}
-        options={{
-          tabBarIcon: ({color}) => <Icon name="cloud-upload" color={color} />,
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarIcon: ({color}) => <Icon name="person" color={color} />,
-        }}
-      />
-    </Tab.Navigator>
-  );
-};
-*/
 
 const StackScreen = () => {
   const {isLoggedIn} = useContext(MainContext);
