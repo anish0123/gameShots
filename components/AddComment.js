@@ -46,14 +46,16 @@ const AddComment = ({item}) => {
           label="Add Comment"
           labelStyle={{color: '#ffffff', paddingBottom: 10}}
           rightIcon={
-            <Icon
-              name="send"
-              color="#ffffff"
-              style={{
-                paddingLeft: 10,
-              }}
-              onPress={addComment}
-            />
+            value !== '' && (
+              <Icon
+                name="send"
+                color="#ffffff"
+                style={{
+                  paddingLeft: 10,
+                }}
+                onPress={addComment}
+              />
+            )
           }
         />
       )}

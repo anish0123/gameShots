@@ -178,7 +178,7 @@ const Profile = ({navigation, myFilesOnly = true}) => {
           </View>
         </View>
       </Card>
-      <View style={{height: 300}}>
+      <View style={{height: 330}}>
         <UserPostList
           navigation={navigation}
           mediaArray={mediaArray}
