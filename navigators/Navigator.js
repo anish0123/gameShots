@@ -9,6 +9,7 @@ import {Icon} from '@rneui/themed';
 import Profile from '../views/Profile';
 import Upload from '../views/Upload';
 import Search from '../views/Search';
+import Single from '../views/Single';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -59,6 +60,7 @@ const StackScreen = () => {
             component={TabScreen}
             options={{headerShown: false}}
           />
+          <Stack.Screen name="Single" component={Single} />
         </>
       ) : (
         <Stack.Screen name="Login" component={Login} />

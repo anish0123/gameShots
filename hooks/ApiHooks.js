@@ -240,4 +240,48 @@ const useFavourite = () => {
   return {postFavourite, deleteFavourite, getFavourites};
 };
 
-export {useAuthentication, useUser, useMedia, useTag, useFavourite};
+const useComment = () => {
+  const postComment = async (token, data) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+    try {
+      const result = await doFetch(baseUrl + 'comments', options);
+      return result;
+    } catch (error) {
+      console.log('postComment: ', error.message);
+    }
+  };
+
+  const deleteComment = async (token, fileId) => {
+    const options = {
+      method: 'Delete',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    try {
+      const result = await doFetch(baseUrl + 'comments/' + fileId, options);
+      return result;
+    } catch (error) {
+      console.log('deleteComment: ', error.message);
+    }
+  };
+
+  const getCommentsById = async (fileId) => {
+    try {
+      const comments = await doFetch(baseUrl + 'comments/file/' + fileId);
+      return comments;
+    } catch (error) {
+      console.log('getCommentsById: ', error.message);
+    }
+  };
+  return {postComment, deleteComment, getCommentsById};
+};
+
+export {useAuthentication, useUser, useMedia, useTag, useFavourite, useComment};
