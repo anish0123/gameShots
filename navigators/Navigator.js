@@ -10,10 +10,54 @@ import Profile from '../views/Profile';
 import Upload from '../views/Upload';
 import Search from '../views/Search';
 import Single from '../views/Single';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 
+const DrawerScreen = () => {
+  return (
+    <Drawer.Navigator
+      screenOptions={{
+        drawerStyle: {
+          marginTop: 50,
+        },
+      }}
+    >
+      <Drawer.Screen
+        name="Home"
+        component={Home}
+        options={{
+          drawerIcon: ({color}) => <Icon name="home" color={color} />,
+        }}
+      />
+      <Drawer.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          drawerIcon: ({color}) => <Icon name="person" color={color} />,
+        }}
+      />
+      <Drawer.Screen
+        name="Search"
+        component={Search}
+        options={{
+          drawerIcon: ({color}) => <Icon name="search" color={color} />,
+        }}
+      />
+      <Drawer.Screen
+        name="Upload"
+        component={Upload}
+        options={{
+          drawerIcon: ({color}) => <Icon name="cloud-upload" color={color} />,
+        }}
+      />
+    </Drawer.Navigator>
+  );
+};
+
+/*
 const TabScreen = () => {
   return (
     <Tab.Navigator
@@ -52,6 +96,7 @@ const TabScreen = () => {
     </Tab.Navigator>
   );
 };
+*/
 
 const StackScreen = () => {
   const {isLoggedIn} = useContext(MainContext);
@@ -61,7 +106,7 @@ const StackScreen = () => {
         <>
           <Stack.Screen
             name="Tabs"
-            component={TabScreen}
+            component={DrawerScreen}
             options={{headerShown: false}}
           />
           <Stack.Screen name="Single" component={Single} />

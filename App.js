@@ -2,6 +2,7 @@ import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
 import {MainProvider} from './contexts/MainContext';
 import Navigator from './navigators/Navigator';
+import 'react-native-gesture-handler';
 
 const App = () => {
   return (
