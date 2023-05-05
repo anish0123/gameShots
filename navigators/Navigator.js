@@ -2,7 +2,6 @@ import {useContext} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import Home from '../views/Home';
 import Login from '../views/Login';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Icon} from '@rneui/themed';
@@ -10,42 +9,59 @@ import Profile from '../views/Profile';
 import Upload from '../views/Upload';
 import Search from '../views/Search';
 import Single from '../views/Single';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
-const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 
-const TabScreen = () => {
+const DrawerScreen = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen
+    <Drawer.Navigator
+      screenOptions={{
+        drawerStyle: {
+          paddingTop: 50,
+          backgroundColor: '#000000',
+        },
+
+        drawerItemStyle: {
+          paddingTop: 10,
+          height: 60,
+        },
+        drawerLabelStyle: {
+          fontSize: 20,
+          color: '#ffffff',
+        },
+      }}
+    >
+      <Drawer.Screen
         name="Home"
         component={Home}
         options={{
-          tabBarIcon: ({color}) => <Icon name="home" color={color} />,
+          drawerIcon: () => <Icon name="home" color="#ffffff" />,
         }}
       />
-      <Tab.Screen
-        name="Search"
-        component={Search}
-        options={{
-          tabBarIcon: ({color}) => <Icon name="search" color={color} />,
-        }}
-      />
-      <Tab.Screen
-        name="Upload"
-        component={Upload}
-        options={{
-          tabBarIcon: ({color}) => <Icon name="cloud-upload" color={color} />,
-        }}
-      />
-      <Tab.Screen
+      <Drawer.Screen
         name="Profile"
         component={Profile}
         options={{
-          tabBarIcon: ({color}) => <Icon name="person" color={color} />,
+          drawerIcon: () => <Icon name="person" color="#ffffff" />,
         }}
       />
-    </Tab.Navigator>
+      <Drawer.Screen
+        name="Search"
+        component={Search}
+        options={{
+          drawerIcon: () => <Icon name="search" color="#ffffff" />,
+        }}
+      />
+      <Drawer.Screen
+        name="Upload"
+        component={Upload}
+        options={{
+          drawerIcon: () => <Icon name="cloud-upload" color="#ffffff" />,
+        }}
+      />
+    </Drawer.Navigator>
   );
 };
 
@@ -57,7 +73,7 @@ const StackScreen = () => {
         <>
           <Stack.Screen
             name="Tabs"
-            component={TabScreen}
+            component={DrawerScreen}
             options={{headerShown: false}}
           />
           <Stack.Screen name="Single" component={Single} />

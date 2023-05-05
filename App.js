@@ -1,14 +1,15 @@
-import {StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
 import {MainProvider} from './contexts/MainContext';
 import Navigator from './navigators/Navigator';
+import 'react-native-gesture-handler';
 
 const App = () => {
   return (
     <MainProvider>
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <Navigator style={{backgroundColor: '#000'}} />
-      </View>
+      </SafeAreaView>
       <StatusBar style="auto" />
     </MainProvider>
   );
