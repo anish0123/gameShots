@@ -18,7 +18,6 @@ const FileDetails = ({navigation, item}) => {
           <Image
             source={{uri: uploadsUrl + item.thumbnails?.w640}}
             style={styles.image}
-            resizeMode="stretch"
           />
         </TouchableOpacity>
       ) : (
@@ -49,14 +48,13 @@ FileDetails.propTypes = {
 
 const styles = StyleSheet.create({
   image: {
-    flex: 1,
     width: '100%',
     height: undefined,
     aspectRatio: 1,
   },
   text: {
     paddingLeft: 20,
-    paddingTop: 5,
+    paddingTop: 10,
     fontSize: 15,
     fontWeight: 'bold',
     color: '#ffffff',

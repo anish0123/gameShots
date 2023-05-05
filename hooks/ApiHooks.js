@@ -275,7 +275,7 @@ const useComment = () => {
 
   const getCommentsById = async (fileId) => {
     try {
-      const comments = await fetch(baseUrl + 'comments/file/' + fileId);
+      const comments = await doFetch(baseUrl + 'comments/file/' + fileId);
       return comments;
     } catch (error) {
       console.log('getCommentsById: ', error.message);
