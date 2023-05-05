@@ -1,84 +1,20 @@
-import {Avatar, Text, ListItem as RNEListItem} from '@rneui/themed';
+import {ListItem as RNEListItem, Icon} from '@rneui/themed';
 import PropTypes from 'prop-types';
-import {uploadsUrl} from '../utils/Variables';
-import {Video} from 'expo-av';
-import {useEffect, useRef, useState} from 'react';
-import {Image, StyleSheet, View} from 'react-native';
-import {useTag, useUser} from '../hooks/ApiHooks';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {StyleSheet, View} from 'react-native';
 import Like from './Like';
+import Owner from './Owner';
+import FileDetails from './FileDetails';
 
 // ListItem component created for displaying list of posts
 const ListItem = ({navigation, singleItem}) => {
   const item = singleItem;
-  const video = useRef(null);
-  const {getUserById} = useUser();
-  const {getFilesByTag} = useTag();
-  const [owner, setOwner] = useState({});
-  const [avatar, setAvatar] = useState('');
-
-  const getOwner = async () => {
-    try {
-      const token = await AsyncStorage.getItem('userToken');
-      const user = await getUserById(token, item.user_id);
-      setOwner(user);
-    } catch (error) {
-      console.log('getOwner: ', error.message);
-    }
-  };
-
-  const loadAvatar = async () => {
-    try {
-      const avatarArray = await getFilesByTag('avatar' + item.user_id);
-      if (avatarArray.length > 0) {
-        setAvatar(avatarArray.pop().filename);
-      }
-    } catch (error) {
-      console.log('loadAvatar: ', error.message);
-    }
-  };
-
-  useEffect(() => {
-    getOwner();
-    loadAvatar();
-  }, [item]);
-
   return (
     <View style={styles.main}>
-      <View style={styles.owner}>
-        <Avatar
-          source={{uri: uploadsUrl + avatar}}
-          size="large"
-          rounded
-          containerStyle={styles.avatar}
-        />
-        <Text style={styles.ownerText}>{owner.username}</Text>
-      </View>
-      {item.media_type === 'image' ? (
-        <Image
-          source={{uri: uploadsUrl + item.thumbnails?.w640}}
-          style={styles.image}
-          resizeMode="stretch"
-        />
-      ) : (
-        <Video
-          ref={video}
-          source={{uri: uploadsUrl + item.filename}}
-          style={{width: '100%', height: 500}}
-          resizeMode="cover"
-          useNativeControls
-          onError={(error) => {
-            console.log(error);
-          }}
-          isLooping
-        />
-      )}
-      <View>
-        <Text style={styles.text}>{item.title}</Text>
-        <Text style={styles.text}>{item.description}</Text>
-      </View>
+      <Owner item={item} />
+      <FileDetails item={item} navigation={navigation} />
       <RNEListItem containerStyle={{backgroundColor: '#000000'}}>
         <Like item={item} />
+        <Icon name="comment" color="#ffffff" />
       </RNEListItem>
     </View>
   );
