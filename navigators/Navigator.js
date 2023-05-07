@@ -10,6 +10,7 @@ import Upload from '../views/Upload';
 import Search from '../views/Search';
 import Single from '../views/Single';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+import DrawerContent from '../components/DrawerContent';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -17,9 +18,10 @@ const Drawer = createDrawerNavigator();
 const DrawerScreen = () => {
   return (
     <Drawer.Navigator
+      drawerContent={(props) => <DrawerContent {...props} />}
       screenOptions={{
         drawerStyle: {
-          paddingTop: 50,
+          paddingTop: 10,
           backgroundColor: '#000000',
         },
 
@@ -76,10 +78,18 @@ const StackScreen = () => {
             component={DrawerScreen}
             options={{headerShown: false}}
           />
-          <Stack.Screen name="Single" component={Single} />
+          <Stack.Screen
+            name="Single"
+            component={Single}
+            options={{headerShown: false}}
+          />
         </>
       ) : (
-        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{headerShown: false}}
+        />
       )}
     </Stack.Navigator>
   );
