@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import UserPostList from '../components/UserPostList';
 
 const Profile = ({navigation, myFilesOnly = true, route}) => {
+  const imageChangeType = 'backGround';
   console.log('Profile', route.params);
   const {checkUserByToken} = useUser();
   const {mediaArray} = useMedia(myFilesOnly);
@@ -31,7 +32,7 @@ const Profile = ({navigation, myFilesOnly = true, route}) => {
   const getBackgroundImage = async () => {
     try {
       const backgroundImageArray = await getFilesByTag(
-        'backGround' + user.user_id
+        imageChangeType + user.user_id
       );
       if (backgroundImageArray.length > 0) {
         setBackground(backgroundImageArray.pop().filename);
@@ -64,10 +65,17 @@ const Profile = ({navigation, myFilesOnly = true, route}) => {
 
   return (
     <SafeAreaView style={{backgroundColor: '#000000'}}>
-      <Card.Image
-        source={{uri: uploadsUrl + background}}
-        style={{height: 220}}
-      />
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('ChangeUserPicture', 'backGround');
+        }}
+      >
+        <Card.Image
+          source={{uri: uploadsUrl + background}}
+          style={{height: 220}}
+        />
+      </TouchableOpacity>
+
       <Card.Divider />
 
       <TouchableOpacity
@@ -91,7 +99,7 @@ const Profile = ({navigation, myFilesOnly = true, route}) => {
             borderRadius: 115 / 2,
           }}
           onPress={() => {
-            navigation.navigate('ChangeUserPicture');
+            navigation.navigate('ChangeUserPicture', 'avatar');
           }}
         />
       </TouchableOpacity>

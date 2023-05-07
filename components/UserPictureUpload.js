@@ -9,7 +9,8 @@ import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm} from 'react-hook-form';
 
-const UserPictureUpload = ({navigation}) => {
+const UserPictureUpload = ({navigation, imageChangeType}) => {
+  console.log('userPictureUpload: ', imageChangeType);
   const [loading, setLoading] = useState(false);
   const [mediaFile, setMediaFile] = useState({});
   const {postMedia} = useMedia();
@@ -22,7 +23,7 @@ const UserPictureUpload = ({navigation}) => {
     formState: {errors},
   } = useForm({
     defaultValues: {
-      title: 'avatar' + user.username,
+      title: imageChangeType + user.username,
       description: '',
     },
     mode: 'onChange',
@@ -73,7 +74,7 @@ const UserPictureUpload = ({navigation}) => {
 
       const appTag = {
         file_id: uploadResult.file_id,
-        tag: 'avatar' + user.user_id,
+        tag: imageChangeType + user.user_id,
       };
       const tagResult = await postTag(token, appTag);
       console.log('uploadResult: ', uploadResult);
@@ -127,6 +128,7 @@ const UserPictureUpload = ({navigation}) => {
 
 UserPictureUpload.propTypes = {
   navigation: PropTypes.object,
+  imageChangeType: PropTypes.string,
 };
 
 export default UserPictureUpload;
