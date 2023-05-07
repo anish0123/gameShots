@@ -10,14 +10,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm} from 'react-hook-form';
 
 const UserPictureUpload = ({navigation, imageChangeType}) => {
-  console.log('userPictureUpload: ', imageChangeType);
   const [loading, setLoading] = useState(false);
   const [mediaFile, setMediaFile] = useState({});
   const {postMedia} = useMedia();
   const {postTag} = useTag();
   const {setUpdate, update, user} = useContext(MainContext);
   const video = useRef(null);
-
   const {
     handleSubmit,
     formState: {errors},
@@ -80,7 +78,7 @@ const UserPictureUpload = ({navigation, imageChangeType}) => {
       console.log('uploadResult: ', uploadResult);
       console.log('tagResult: ', tagResult);
       setUpdate(!update);
-      navigation.navigate('Profile');
+      navigation.navigate('Profile', user);
       resetValues();
     } catch (error) {
       console.log('uploadFile: ', error.message);

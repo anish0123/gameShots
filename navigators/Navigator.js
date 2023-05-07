@@ -12,6 +12,7 @@ import Single from '../views/Single';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import DrawerContent from '../components/DrawerContent';
 import ChangeUserPicture from '../views/ChangeUserPicture';
+import EditProfile from '../views/EditProfile';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -84,6 +85,7 @@ const StackScreen = () => {
             name="ChangeUserPicture"
             component={ChangeUserPicture}
           />
+          <Stack.Screen name="EditProfile" component={EditProfile} />
         </>
       ) : (
         <Stack.Screen
