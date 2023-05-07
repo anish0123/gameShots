@@ -1,14 +1,15 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Card, Text} from '@rneui/themed';
 import {useContext, useEffect, useState} from 'react';
-import {SafeAreaView, View} from 'react-native';
+import {SafeAreaView, TouchableOpacity, View} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
 import {useMedia, useTag, useUser} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/Variables';
 import PropTypes from 'prop-types';
 import UserPostList from '../components/UserPostList';
 
-const Profile = ({navigation, myFilesOnly = true}) => {
+const Profile = ({navigation, myFilesOnly = true, route}) => {
+  console.log('Profile', route.params);
   const {checkUserByToken} = useUser();
   const {mediaArray} = useMedia(myFilesOnly);
   const [currentUser, setCurrentUser] = useState({});
@@ -49,7 +50,6 @@ const Profile = ({navigation, myFilesOnly = true}) => {
       const avatarArray = await getFilesByTag('avatar' + user.user_id);
       if (avatarArray.length > 0) {
         setAvatar(avatarArray.pop().filename);
-        console.log('loadAvatarName: ', avatarArray.pop().filename);
       }
     } catch (error) {
       console.log('loadAvatar: ', error.message);
@@ -70,9 +70,8 @@ const Profile = ({navigation, myFilesOnly = true}) => {
       />
       <Card.Divider />
 
-      <Card.Image
-        source={{uri: uploadsUrl + avatar}}
-        containerStyle={{
+      <TouchableOpacity
+        style={{
           marginLeft: 15,
           position: 'absolute',
           top: 180,
@@ -83,7 +82,20 @@ const Profile = ({navigation, myFilesOnly = true}) => {
           borderWidth: 2,
           borderColor: '#FFEA00',
         }}
-      />
+      >
+        <Card.Image
+          source={{uri: uploadsUrl + avatar}}
+          containerStyle={{
+            width: 115,
+            height: 115,
+            borderRadius: 115 / 2,
+          }}
+          onPress={() => {
+            navigation.navigate('ChangeUserPicture');
+          }}
+        />
+      </TouchableOpacity>
+
       <View>
         <Text
           style={{
@@ -192,6 +204,7 @@ const Profile = ({navigation, myFilesOnly = true}) => {
 Profile.propTypes = {
   navigation: PropTypes.object,
   myFilesOnly: PropTypes.bool,
+  route: PropTypes.object,
 };
 
 export default Profile;

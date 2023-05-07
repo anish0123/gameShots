@@ -54,7 +54,7 @@ const DrawerContent = (props) => {
             <Text style={styles.ownerText}>{user.username}</Text>
             <TouchableOpacity
               onPress={() => {
-                props.navigation.navigate('Profile');
+                props.navigation.navigate('Profile', user);
               }}
             >
               <Text style={styles.profile}>View your profile</Text>

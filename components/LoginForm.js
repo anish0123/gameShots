@@ -1,4 +1,4 @@
-import {Dimensions, ScrollView} from 'react-native';
+import {Dimensions, ScrollView, View} from 'react-native';
 import {Controller, useForm} from 'react-hook-form';
 import {Button, Input} from '@rneui/themed';
 import {useContext, useState} from 'react';
@@ -39,13 +39,12 @@ const LoginForm = () => {
   };
 
   return (
-    <ScrollView
+    <View
       style={{
         marginTop: 30,
         marginBottom: 30,
         flexDirection: 'column',
         alignContent: 'center',
-        backgroundColor: '#000',
       }}
     >
       <Controller
@@ -119,7 +118,7 @@ const LoginForm = () => {
       >
         Log in!
       </Button>
-    </ScrollView>
+    </View>
   );
 };
 

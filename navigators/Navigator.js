@@ -11,6 +11,7 @@ import Search from '../views/Search';
 import Single from '../views/Single';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import DrawerContent from '../components/DrawerContent';
+import ChangeUserPicture from '../views/ChangeUserPicture';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -78,10 +79,10 @@ const StackScreen = () => {
             component={DrawerScreen}
             options={{headerShown: false}}
           />
+          <Stack.Screen name="Single" component={Single} />
           <Stack.Screen
-            name="Single"
-            component={Single}
-            options={{headerShown: false}}
+            name="ChangeUserPicture"
+            component={ChangeUserPicture}
           />
         </>
       ) : (
