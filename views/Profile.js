@@ -1,9 +1,8 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Button, Card, Icon, Text} from '@rneui/themed';
+import {Card, Icon, Text} from '@rneui/themed';
 import {useContext, useEffect, useState} from 'react';
 import {SafeAreaView, TouchableOpacity, View} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
-import {useMedia, useTag, useUser} from '../hooks/ApiHooks';
+import {useMedia, useTag} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/Variables';
 import PropTypes from 'prop-types';
 import UserPostList from '../components/UserPostList';

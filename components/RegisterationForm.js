@@ -3,6 +3,7 @@ import {useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {Dimensions, View} from 'react-native';
 import {useUser} from '../hooks/ApiHooks';
+import Lottie from 'lottie-react-native';
 
 const RegisterationForm = () => {
   const [loading, setLoading] = useState(false);
@@ -55,6 +56,11 @@ const RegisterationForm = () => {
         alignContent: 'center',
       }}
     >
+      <Lottie
+        source={require('../Lottie/welcome.json')}
+        autoPlay
+        style={{marginBottom: 50, padding: 0, width: '95%'}}
+      />
       <Controller
         control={control}
         rules={{
