@@ -29,15 +29,24 @@ const Login = () => {
     userCheck();
   }, []);
   return (
-    <View style={{backgroundColor: '#000'}}>
+    <View style={{backgroundColor: 'black'}}>
       {toggleForm ? <LoginForm /> : <RegisterationForm />}
       <View
         style={{
           flexDirection: 'row',
           paddingLeft: 10,
+          height: '100%',
+          justifyContent: 'center',
         }}
       >
-        <Text style={{fontSize: 20, marginBottom: 30, color: 'white'}}>
+        <Text
+          style={{
+            fontSize: 20,
+            marginBottom: 30,
+            color: 'white',
+            justifyContent: 'center',
+          }}
+        >
           {toggleForm
             ? "Don't have an account? Please "
             : 'Have an account? Please '}

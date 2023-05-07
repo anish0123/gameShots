@@ -90,7 +90,24 @@ const useUser = () => {
     }
   };
 
-  return {checkUser, registerUser, checkUserByToken, getUserById};
+  const putUser = async (data, token) => {
+    const options = {
+      method: 'put',
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+    try {
+      console.log('Options ' + options);
+      return await doFetch(baseUrl + 'users', options);
+    } catch (error) {
+      throw new Error('put user: ' + error.message);
+    }
+  };
+
+  return {checkUser, registerUser, checkUserByToken, getUserById, putUser};
 };
 
 // Method for fetching, uploading and editing posts from backend
@@ -158,11 +175,27 @@ const useMedia = (myFilesOnly) => {
       console.log('searchMedia: ', error.message);
     }
   };
+  const userMedia = async ( userId) => {
+    try {
+      // const media = await useTag().getFilesByTag(appId);
+      let json = await useTag().getFilesByTag(appId);
+      json = json.filter((file) => file.user_id === userId);
+      const media = await Promise.all(
+        json.map(async (file) => {
+          const fileResponse = await fetch(baseUrl + 'media/' + file.file_id);
+          return await fileResponse.json();
+        })
+      );
+      return media.reverse();
+    } catch (error) {
+      console.log('loadMedia: ', error.message);
+    }
+  };
 
   useEffect(() => {
     loadMedia();
   }, [update]);
-  return {loadMedia, postMedia, searchMedia, mediaArray};
+  return {loadMedia, postMedia, searchMedia, mediaArray, userMedia};
 };
 
 const useTag = () => {

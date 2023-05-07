@@ -1,6 +1,6 @@
 import {Avatar, Text} from '@rneui/themed';
 import {useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {useTag, useUser} from '../hooks/ApiHooks';
 import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -39,7 +39,12 @@ const Owner = ({navigation, item}) => {
   }, [item]);
 
   return (
-    <View style={styles.owner}>
+    <TouchableOpacity
+      style={styles.owner}
+      onPress={() => {
+        navigation.navigate('Profile', owner);
+      }}
+    >
       <Avatar
         source={{uri: uploadsUrl + avatar}}
         size="large"
@@ -47,7 +52,7 @@ const Owner = ({navigation, item}) => {
         containerStyle={styles.avatar}
       />
       <Text style={styles.ownerText}>{owner.username}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 

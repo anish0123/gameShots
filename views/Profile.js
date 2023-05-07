@@ -1,36 +1,27 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Card, Text} from '@rneui/themed';
+import {Button, Card, Icon, Text} from '@rneui/themed';
 import {useContext, useEffect, useState} from 'react';
-import {SafeAreaView, View} from 'react-native';
+import {SafeAreaView, TouchableOpacity, View} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
 import {useMedia, useTag, useUser} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/Variables';
 import PropTypes from 'prop-types';
 import UserPostList from '../components/UserPostList';
 
-const Profile = ({navigation, myFilesOnly = true}) => {
-  const {checkUserByToken} = useUser();
-  const {mediaArray} = useMedia(myFilesOnly);
-  const [currentUser, setCurrentUser] = useState({});
+const Profile = ({navigation, myFilesOnly = false, route}) => {
+  const clickedUser = route.params;
+  console.log('profile', clickedUser);
+  const {mediaArray, userMedia} = useMedia(myFilesOnly);
   const {user} = useContext(MainContext);
   const {getFilesByTag} = useTag();
   const [background, setBackground] = useState('');
   const [avatar, setAvatar] = useState('');
-
-  const getUser = async () => {
-    try {
-      const token = await AsyncStorage.getItem('userToken');
-      const user = await checkUserByToken(token);
-      setCurrentUser(user);
-    } catch (error) {
-      console.log('getUser: ', error.message);
-    }
-  };
+  const [media, setMedia] = useState([]);
 
   const getBackgroundImage = async () => {
     try {
       const backgroundImageArray = await getFilesByTag(
-        'backGround' + user.user_id
+        'backGround' + clickedUser.user_id
       );
       if (backgroundImageArray.length > 0) {
         setBackground(backgroundImageArray.pop().filename);
@@ -46,36 +37,54 @@ const Profile = ({navigation, myFilesOnly = true}) => {
 
   const loadAvatar = async () => {
     try {
-      const avatarArray = await getFilesByTag('avatar' + user.user_id);
+      const avatarArray = await getFilesByTag('avatar' + clickedUser.user_id);
       if (avatarArray.length > 0) {
         setAvatar(avatarArray.pop().filename);
-        console.log('loadAvatarName: ', avatarArray.pop().filename);
       }
     } catch (error) {
       console.log('loadAvatar: ', error.message);
     }
   };
 
+  const getMediaByUser = async () => {
+    try {
+      const fetchMedia = await userMedia(clickedUser.user_id);
+      console.log('getMediaByUser: ', fetchMedia);
+      setMedia(fetchMedia);
+    } catch (error) {
+      console.log('getMediaByUser: ', error.message);
+    }
+  };
+
   useEffect(() => {
-    getUser();
     getBackgroundImage();
     loadAvatar();
-  }, [mediaArray]);
+    getMediaByUser();
+  }, [mediaArray, clickedUser]);
 
   return (
     <SafeAreaView style={{backgroundColor: '#000000'}}>
-      <Card.Image
-        source={{uri: uploadsUrl + background}}
-        style={{height: 220}}
-      />
+      <TouchableOpacity
+        onPress={() => {
+          if (clickedUser.user_id === user.user_id) {
+            navigation.navigate('ChangeUserPicture', 'backGround');
+          }
+        }}
+      >
+        <Card.Image
+          source={{uri: uploadsUrl + background}}
+          style={{height: 220}}
+        />
+      </TouchableOpacity>
+
       <Card.Divider />
 
       <Card.Image
         source={{uri: uploadsUrl + avatar}}
         containerStyle={{
-          marginLeft: 15,
           position: 'absolute',
           top: 180,
+          marginLeft: 15,
           width: 120,
           height: 120,
           borderRadius: 120 / 2,
@@ -83,19 +92,43 @@ const Profile = ({navigation, myFilesOnly = true}) => {
           borderWidth: 2,
           borderColor: '#FFEA00',
         }}
+        onPress={() => {
+          if (clickedUser.user_id === user.user_id) {
+            navigation.navigate('ChangeUserPicture', 'avatar');
+          }
+        }}
       />
+
       <View>
-        <Text
-          style={{
-            marginLeft: 145,
-            fontSize: 20,
-            fontStyle: 'italic',
-            fontWeight: 'bold',
-            color: '#ffffff',
-          }}
-        >
-          {currentUser.username}
-        </Text>
+        <View style={{flexDirection: 'row'}}>
+          <Text
+            style={{
+              marginLeft: 145,
+              fontSize: 20,
+              fontStyle: 'italic',
+              fontWeight: 'bold',
+              color: '#ffffff',
+            }}
+          >
+            {clickedUser.username}
+          </Text>
+          {clickedUser.user_id === user.user_id && (
+            <Icon
+              name="edit"
+              color="#ffffff"
+              containerStyle={{
+                marginLeft: 15,
+              }}
+              onPress={() => {
+                navigation.navigate('EditProfile', {
+                  userName: user.username,
+                  email: user.email,
+                  fileName: avatar,
+                });
+              }}
+            />
+          )}
+        </View>
         <Text
           style={{
             marginLeft: 145,
@@ -106,7 +139,7 @@ const Profile = ({navigation, myFilesOnly = true}) => {
             color: '#939799',
           }}
         >
-          {currentUser.email}
+          {clickedUser.email}
         </Text>
       </View>
       <Card
@@ -145,7 +178,7 @@ const Profile = ({navigation, myFilesOnly = true}) => {
                 color: '#ffffff',
               }}
             >
-              {mediaArray.length}
+              {media.length}
             </Text>
           </View>
           <View
@@ -178,11 +211,11 @@ const Profile = ({navigation, myFilesOnly = true}) => {
           </View>
         </View>
       </Card>
-      <View style={{height: 330}}>
+      <View style={{height: 340}}>
         <UserPostList
           navigation={navigation}
-          mediaArray={mediaArray}
-          owner={currentUser}
+          mediaArray={media}
+          owner={clickedUser}
         />
       </View>
     </SafeAreaView>
@@ -192,6 +225,7 @@ const Profile = ({navigation, myFilesOnly = true}) => {
 Profile.propTypes = {
   navigation: PropTypes.object,
   myFilesOnly: PropTypes.bool,
+  route: PropTypes.object,
 };
 
 export default Profile;

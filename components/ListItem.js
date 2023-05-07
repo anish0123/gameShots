@@ -10,7 +10,7 @@ const ListItem = ({navigation, singleItem}) => {
   const item = singleItem;
   return (
     <View style={styles.main}>
-      <Owner item={item} />
+      <Owner item={item} navigation={navigation} />
       <FileDetails item={item} navigation={navigation} />
       <RNEListItem containerStyle={{backgroundColor: '#000000'}}>
         <Like item={item} />
