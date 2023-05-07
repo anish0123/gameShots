@@ -10,7 +10,7 @@ import {useUser} from '../hooks/ApiHooks';
 const Login = () => {
   const [toggleForm, setToggleForm] = useState(true);
   const {checkUserByToken} = useUser();
-  const {user, setUser, setIsLoggedIn} = useContext(MainContext);
+  const {setUser, setIsLoggedIn} = useContext(MainContext);
 
   const userCheck = async () => {
     try {

@@ -1,6 +1,7 @@
 import {FlatList} from 'react-native';
 import PropTypes from 'prop-types';
 import SingleSearch from './SingleSearch';
+
 const SearchList = ({navigation, searchList}) => {
   return (
     <FlatList
