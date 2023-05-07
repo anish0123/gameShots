@@ -175,7 +175,7 @@ const useMedia = (myFilesOnly) => {
       console.log('searchMedia: ', error.message);
     }
   };
-  const userMedia = async ( userId) => {
+  const userMedia = async (userId) => {
     try {
       // const media = await useTag().getFilesByTag(appId);
       let json = await useTag().getFilesByTag(appId);
