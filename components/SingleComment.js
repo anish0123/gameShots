@@ -89,7 +89,6 @@ const SingleComment = ({singleComment}) => {
           onPress={commentDelete}
         />
       )}
-
     </View>
   );
 };
