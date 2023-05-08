@@ -9,6 +9,7 @@ import {Video} from 'expo-av';
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContext';
 import {appId} from '../utils/Variables';
+import Header from '../components/Header';
 
 const Upload = ({navigation}) => {
   const [loading, setLoading] = useState(false);
@@ -94,111 +95,116 @@ const Upload = ({navigation}) => {
   };
 
   return (
-    <ScrollView style={{backgroundColor: '#000000'}}>
-      <Card>
-        {mediaFile.type == 'video' ? (
-          <Video
-            ref={video}
-            source={{uri: mediaFile.uri}}
-            style={{width: '100%', height: 250}}
-            resizeMode="contain"
-            useNativeControls
-            onError={(error) => {
-              console.log(error);
+    <>
+      <Header navigation={navigation} />
+      <ScrollView style={{backgroundColor: '#000000'}}>
+        <Card>
+          {mediaFile.type == 'video' ? (
+            <Video
+              ref={video}
+              source={{uri: mediaFile.uri}}
+              style={{width: '100%', height: 250}}
+              resizeMode="contain"
+              useNativeControls
+              onError={(error) => {
+                console.log(error);
+              }}
+            />
+          ) : (
+            <Card.Image
+              source={{
+                uri: mediaFile.uri || 'https://placekitten.com/g/200/300',
+              }}
+              onPress={selectFile}
+              style={{width: '100%', height: 250}}
+            />
+          )}
+          <Controller
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: 'Title is required',
+              },
+              minLength: {
+                value: 3,
+                message: 'Title Min length is 3 characters.',
+              },
             }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <Input
+                inputContainerStyle={{
+                  borderWidth: 1,
+                  borderColor: 'green',
+                  borderRadius: 7,
+                  width: '100%',
+                  justifyContent: 'center',
+                  marginTop: 20,
+                }}
+                placeholder="Title"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                autoCapitalize="none"
+                errorMessage={errors.title && errors.title.message}
+              />
+            )}
+            name="title"
           />
-        ) : (
-          <Card.Image
-            source={{uri: mediaFile.uri || 'https://placekitten.com/g/200/300'}}
-            onPress={selectFile}
-            style={{width: '100%', height: 250}}
+          <Controller
+            control={control}
+            rules={{
+              minLength: {
+                value: 5,
+                message: 'Description Min length is 5 characters.',
+              },
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <Input
+                style={{
+                  paddingHorizontal: 5,
+                }}
+                containerStyle={{
+                  minHeight: 90,
+                }}
+                inputContainer={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                }}
+                inputContainerStyle={{
+                  borderWidth: 1,
+                  borderColor: 'green',
+                  borderRadius: 7,
+                  width: '100%',
+                  justifyContent: 'center',
+                  minHeight: 100,
+                }}
+                placeholder="Description"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                multiline={true}
+                autoCapitalize="none"
+                errorMessage={errors.description && errors.description.message}
+              />
+            )}
+            name="description"
           />
-        )}
-        <Controller
-          control={control}
-          rules={{
-            required: {
-              value: true,
-              message: 'Title is required',
-            },
-            minLength: {
-              value: 3,
-              message: 'Title Min length is 3 characters.',
-            },
-          }}
-          render={({field: {onChange, onBlur, value}}) => (
-            <Input
-              inputContainerStyle={{
-                borderWidth: 1,
-                borderColor: 'green',
-                borderRadius: 7,
-                width: '100%',
-                justifyContent: 'center',
-                marginTop: 20,
-              }}
-              placeholder="Title"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              autoCapitalize="none"
-              errorMessage={errors.title && errors.title.message}
-            />
-          )}
-          name="title"
-        />
-        <Controller
-          control={control}
-          rules={{
-            minLength: {
-              value: 5,
-              message: 'Description Min length is 5 characters.',
-            },
-          }}
-          render={({field: {onChange, onBlur, value}}) => (
-            <Input
-              style={{
-                paddingHorizontal: 5,
-              }}
-              containerStyle={{
-                minHeight: 90,
-              }}
-              inputContainer={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-              }}
-              inputContainerStyle={{
-                borderWidth: 1,
-                borderColor: 'green',
-                borderRadius: 7,
-                width: '100%',
-                justifyContent: 'center',
-                minHeight: 100,
-              }}
-              placeholder="Description"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              multiline={true}
-              autoCapitalize="none"
-              errorMessage={errors.description && errors.description.message}
-            />
-          )}
-          name="description"
-        />
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <Button style={{paddingRight: 50}} onPress={resetValues}>
-            Reset
-          </Button>
-          <Button
-            onPress={handleSubmit(uploadFile)}
-            loading={loading}
-            disabled={!mediaFile.uri || errors.title || errors.description}
-          >
-            Upload
-          </Button>
-        </View>
-      </Card>
-    </ScrollView>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <Button style={{paddingRight: 50}} onPress={resetValues}>
+              Reset
+            </Button>
+            <Button
+              onPress={handleSubmit(uploadFile)}
+              loading={loading}
+              disabled={!mediaFile.uri || errors.title || errors.description}
+            >
+              Upload
+            </Button>
+          </View>
+        </Card>
+      </ScrollView>
+    </>
   );
 };
 Upload.propTypes = {
