@@ -192,10 +192,57 @@ const useMedia = (myFilesOnly) => {
     }
   };
 
+  // Method for editing a media/post in the api
+  const putMedia = async (id, data, token) => {
+    const options = {
+      method: 'put',
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+    try {
+      const uploadResult = await doFetch(baseUrl + 'media/' + id, options);
+      return uploadResult;
+    } catch (error) {
+      console.log('putMedia:', error.message);
+    }
+  };
+
+  // Method for deleting media/post from the api.
+  const deleteMedia = async (id, token) => {
+    try {
+      return await doFetch(baseUrl + 'media/' + id, {
+        headers: {'x-access-token': token},
+        method: 'delete',
+      });
+    } catch (error) {
+      console.log('deleteMedia: ', error.message);
+    }
+  };
+
+  const loadSingleMedia = async (fileId) => {
+    try {
+      return await doFetch(baseUrl + 'media/' + fileId);
+    } catch (error) {
+      console.log('loadSingleMedia: ', error.message);
+    }
+  };
+
   useEffect(() => {
     loadMedia();
   }, [update]);
-  return {loadMedia, postMedia, searchMedia, mediaArray, userMedia};
+  return {
+    loadMedia,
+    postMedia,
+    searchMedia,
+    mediaArray,
+    userMedia,
+    deleteMedia,
+    putMedia,
+    loadSingleMedia,
+  };
 };
 
 const useTag = () => {
