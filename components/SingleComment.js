@@ -80,14 +80,16 @@ const SingleComment = ({singleComment}) => {
         <Text style={{marginTop: 0, marginLeft: 30, paddingLeft: 0}}>
           {singleComment.comment}
         </Text>
+        <Card.Divider />
       </View>
       {user.user_id === singleComment.user_id && (
         <Icon
           name="delete"
-          style={{paddingTop: 25, paddingRight: 30}}
+          style={{paddingTop: 20, paddingRight: 30}}
           onPress={commentDelete}
         />
       )}
+
     </View>
   );
 };

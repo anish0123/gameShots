@@ -24,7 +24,7 @@ const FileDetails = ({navigation, item}) => {
         <Video
           ref={video}
           source={{uri: uploadsUrl + item.filename}}
-          style={{width: '100%', height: 500}}
+          style={{width: '100%', height: 300}}
           resizeMode="cover"
           useNativeControls
           onError={(error) => {
@@ -49,8 +49,7 @@ FileDetails.propTypes = {
 const styles = StyleSheet.create({
   image: {
     width: '100%',
-    height: undefined,
-    aspectRatio: 1,
+    height: 250,
   },
   text: {
     paddingLeft: 20,

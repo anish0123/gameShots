@@ -1,6 +1,6 @@
 import {Button, Card, Input} from '@rneui/themed';
 import {Controller, useForm} from 'react-hook-form';
-import {ScrollView, View} from 'react-native';
+import {Dimensions, SafeAreaView, ScrollView, View} from 'react-native';
 import {useMedia, useTag} from '../hooks/ApiHooks';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -9,6 +9,7 @@ import {Video} from 'expo-av';
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContext';
 import {appId} from '../utils/Variables';
+import Header from '../components/Header';
 
 const Upload = ({navigation}) => {
   const [loading, setLoading] = useState(false);
@@ -94,13 +95,20 @@ const Upload = ({navigation}) => {
   };
 
   return (
-    <ScrollView style={{backgroundColor: '#000000'}}>
-      <Card>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#000000'}}>
+      <Header navigation={navigation} />
+      <ScrollView
+        style={{
+          marginTop: 20,
+          marginLeft: 10,
+          marginRight: 10,
+        }}
+      >
         {mediaFile.type == 'video' ? (
           <Video
             ref={video}
             source={{uri: mediaFile.uri}}
-            style={{width: '100%', height: 250}}
+            style={{width: '100%', height: 500}}
             resizeMode="contain"
             useNativeControls
             onError={(error) => {
@@ -109,9 +117,11 @@ const Upload = ({navigation}) => {
           />
         ) : (
           <Card.Image
-            source={{uri: mediaFile.uri || 'https://placekitten.com/g/200/300'}}
+            source={{
+              uri: mediaFile.uri || 'https://placekitten.com/g/200/300',
+            }}
             onPress={selectFile}
-            style={{width: '100%', height: 250}}
+            style={{width: '100%', height: 300, borderRadius: 4}}
           />
         )}
         <Controller
@@ -130,11 +140,12 @@ const Upload = ({navigation}) => {
             <Input
               inputContainerStyle={{
                 borderWidth: 1,
-                borderColor: 'green',
                 borderRadius: 7,
                 width: '100%',
                 justifyContent: 'center',
                 marginTop: 20,
+                backgroundColor: '#ffffff',
+                borderColor: '#FFEA00',
               }}
               placeholder="Title"
               onBlur={onBlur}
@@ -168,11 +179,12 @@ const Upload = ({navigation}) => {
               }}
               inputContainerStyle={{
                 borderWidth: 1,
-                borderColor: 'green',
+                borderColor: '#FFEA00',
                 borderRadius: 7,
                 width: '100%',
                 justifyContent: 'center',
                 minHeight: 100,
+                backgroundColor: '#ffffff',
               }}
               placeholder="Description"
               onBlur={onBlur}
@@ -185,20 +197,53 @@ const Upload = ({navigation}) => {
           )}
           name="description"
         />
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <Button style={{paddingRight: 50}} onPress={resetValues}>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            marginRight: '15%',
+          }}
+        >
+          <Button
+            buttonStyle={{
+              backgroundColor: '#62BD69',
+              borderColor: 'black',
+              borderRadius: 20,
+              marginLeft: '25%',
+            }}
+            type="outline"
+            titleStyle={{color: 'black'}}
+            containerStyle={{
+              width: Dimensions.get('screen').width / 3,
+              marginHorizontal: Dimensions.get('screen').width / 4,
+            }}
+            onPress={resetValues}
+          >
             Reset
           </Button>
           <Button
             onPress={handleSubmit(uploadFile)}
             loading={loading}
             disabled={!mediaFile.uri || errors.title || errors.description}
+            buttonStyle={{
+              backgroundColor: '#62BD69',
+              borderColor: 'black',
+              borderRadius: 20,
+              marginLeft: '25%',
+            }}
+            type="outline"
+            titleStyle={{color: 'black'}}
+            containerStyle={{
+              width: Dimensions.get('screen').width / 3,
+              marginHorizontal: Dimensions.get('screen').width / 4,
+            }}
           >
             Upload
           </Button>
         </View>
-      </Card>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 Upload.propTypes = {

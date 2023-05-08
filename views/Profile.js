@@ -6,6 +6,7 @@ import {useMedia, useTag} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/Variables';
 import PropTypes from 'prop-types';
 import UserPostList from '../components/UserPostList';
+import Header from '../components/Header';
 
 const Profile = ({navigation, myFilesOnly = false, route}) => {
   const clickedUser = route.params;
@@ -63,6 +64,7 @@ const Profile = ({navigation, myFilesOnly = false, route}) => {
 
   return (
     <SafeAreaView style={{backgroundColor: '#000000'}}>
+      <Header navigation={navigation} />
       <TouchableOpacity
         onPress={() => {
           if (clickedUser.user_id === user.user_id) {

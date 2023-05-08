@@ -5,6 +5,7 @@ import {useEffect, useState} from 'react';
 import {useMedia} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SearchList from '../components/SearchList';
+import Header from '../components/Header';
 
 const Search = ({navigation}) => {
   const [value, setValue] = useState('');
@@ -30,6 +31,7 @@ const Search = ({navigation}) => {
   useEffect(() => {});
   return (
     <SafeAreaView style={styles.container}>
+      <Header navigation={navigation} />
       <SearchBar
         platform="default"
         inputContainerStyle={{backgroundColor: '#ffff'}}

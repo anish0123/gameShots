@@ -13,6 +13,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import DrawerContent from '../components/DrawerContent';
 import ChangeUserPicture from '../views/ChangeUserPicture';
 import EditProfile from '../views/EditProfile';
+import EditPost from '../views/EditPost';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -42,6 +43,7 @@ const DrawerScreen = () => {
         component={Home}
         options={{
           drawerIcon: () => <Icon name="home" color="#ffffff" />,
+          headerShown: false,
         }}
       />
       <Drawer.Screen
@@ -49,6 +51,7 @@ const DrawerScreen = () => {
         component={Profile}
         options={{
           drawerIcon: () => <Icon name="person" color="#ffffff" />,
+          headerShown: false,
         }}
       />
       <Drawer.Screen
@@ -56,6 +59,7 @@ const DrawerScreen = () => {
         component={Search}
         options={{
           drawerIcon: () => <Icon name="search" color="#ffffff" />,
+          headerShown: false,
         }}
       />
       <Drawer.Screen
@@ -63,6 +67,7 @@ const DrawerScreen = () => {
         component={Upload}
         options={{
           drawerIcon: () => <Icon name="cloud-upload" color="#ffffff" />,
+          headerShown: false,
         }}
       />
     </Drawer.Navigator>
@@ -86,6 +91,7 @@ const StackScreen = () => {
             component={ChangeUserPicture}
           />
           <Stack.Screen name="EditProfile" component={EditProfile} />
+          <Stack.Screen name="EditPost" component={EditPost} />
         </>
       ) : (
         <Stack.Screen
