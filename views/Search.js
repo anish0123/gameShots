@@ -1,5 +1,11 @@
 import {SearchBar} from '@rneui/themed';
-import {Platform, StyleSheet, SafeAreaView} from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  SafeAreaView,
+  KeyboardAvoidingView,
+  View,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import {useEffect, useState} from 'react';
 import {useMedia} from '../hooks/ApiHooks';
@@ -31,24 +37,30 @@ const Search = ({navigation}) => {
   useEffect(() => {});
   return (
     <SafeAreaView style={styles.container}>
-      <Header navigation={navigation} />
-      <SearchBar
-        platform="default"
-        inputContainerStyle={{backgroundColor: '#ffff'}}
-        inputStyle={{color: '#000000'}}
-        leftIconContainerStyle={{}}
-        rightIconContainerStyle={{}}
-        loadingProps={{}}
-        onChangeText={(newVal) => setValue(newVal)}
-        placeholder="Search title.."
-        placeholderTextColor="#888"
-        round
-        cancelButtonTitle="Cancel"
-        cancelButtonProps={{}}
-        autoCapitalize="none"
-        value={value}
-      />
-      <SearchList navigation={navigation} searchList={searchList} />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+        <Header navigation={navigation} />
+        <SearchBar
+          platform="default"
+          inputContainerStyle={{backgroundColor: '#ffff'}}
+          inputStyle={{color: '#000000'}}
+          leftIconContainerStyle={{}}
+          rightIconContainerStyle={{}}
+          loadingProps={{}}
+          onChangeText={(newVal) => setValue(newVal)}
+          placeholder="Search title.."
+          placeholderTextColor="#888"
+          round
+          cancelButtonTitle="Cancel"
+          cancelButtonProps={{}}
+          autoCapitalize="none"
+          value={value}
+        />
+        <View style={{height: '85%'}}>
+          <SearchList navigation={navigation} searchList={searchList} />
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

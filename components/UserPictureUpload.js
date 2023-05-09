@@ -1,4 +1,4 @@
-import {Button, Card} from '@rneui/themed';
+import {Button, Card, Icon} from '@rneui/themed';
 import {Alert, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
 import {useContext, useRef, useState} from 'react';
@@ -34,6 +34,36 @@ const UserPictureUpload = ({navigation, imageChangeType}) => {
   } else {
     info = 'Background Picture Updated';
   }
+
+  // Method for asking camera permission from the user
+  const getCameraPermission = async () => {
+    const {status} = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Sorry, we need camera permission');
+    }
+  };
+
+  // Method for opening the camera and taking the pictures.
+  const takePicture = async () => {
+    // No permissions request is necessary for launching the image library
+    try {
+      await getCameraPermission();
+      const result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 0.5,
+      });
+
+      console.log('Pick camera result', result);
+
+      if (!result.canceled) {
+        setMediaFile(result.assets[0]);
+      }
+    } catch (error) {
+      console.log('Error in taking picture', error);
+    }
+  };
 
   // Method for selecting file to upload
   const selectFile = async () => {
@@ -128,6 +158,17 @@ const UserPictureUpload = ({navigation, imageChangeType}) => {
             style={{width: '100%', height: 250}}
           />
         )}
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            marginTop: 10,
+          }}
+        >
+          <Icon name="photo-camera" onPress={takePicture} size={25} raised />
+          <Icon name="collections" onPress={selectFile} size={25} raised />
+        </View>
         <View style={styles.buttonView}>
           <Button buttonStyle={styles.button} onPress={resetValues}>
             Reset
