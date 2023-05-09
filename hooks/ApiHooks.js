@@ -15,7 +15,7 @@ const doFetch = async (url, options) => {
   return json;
 };
 
-// Method for using authentication
+// Method for using authentication 
 const useAuthentication = () => {
   // Method for logging in
   const postLogin = async (userCredentials) => {
