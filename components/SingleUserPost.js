@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {Dimensions, View} from 'react-native';
 import {uploadsUrl} from '../utils/Variables';
 
+// THis component displays the file uploaded by the user
 const SingleUserPost = ({navigation, item}) => {
   return (
     <View>

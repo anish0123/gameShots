@@ -5,6 +5,7 @@ import {Alert, Dimensions, View} from 'react-native';
 import {useUser} from '../hooks/ApiHooks';
 import Lottie from 'lottie-react-native';
 
+// THis component is used to register new users in the app
 const RegisterationForm = () => {
   const [loading, setLoading] = useState(false);
   const {checkUser, registerUser} = useUser();
@@ -26,6 +27,7 @@ const RegisterationForm = () => {
     mode: 'onChange',
   });
 
+  // Method for the checking username is available
   const checkUsername = async (username) => {
     try {
       const userAvailability = await checkUser(username);
@@ -35,6 +37,7 @@ const RegisterationForm = () => {
     }
   };
 
+  // Method for registering new users
   const register = async (userDetails) => {
     setLoading(true);
     delete userDetails.confirmPassword;

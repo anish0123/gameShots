@@ -6,12 +6,14 @@ import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {uploadsUrl} from '../utils/Variables';
 
+// This component displays the owner of a caertain file
 const Owner = ({navigation, item}) => {
   const {getUserById} = useUser();
   const {getFilesByTag} = useTag();
   const [owner, setOwner] = useState({});
   const [avatar, setAvatar] = useState('');
 
+  // Method for getting owner through user_id in file
   const getOwner = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
@@ -22,6 +24,7 @@ const Owner = ({navigation, item}) => {
     }
   };
 
+  // Method for loading avatar of the user.
   const loadAvatar = async () => {
     try {
       const avatarArray = await getFilesByTag('avatar' + item.user_id);

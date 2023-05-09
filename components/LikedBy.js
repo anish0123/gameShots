@@ -6,6 +6,7 @@ import {StyleSheet, TouchableOpacity} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
 import {useFavourite, useUser} from '../hooks/ApiHooks';
 
+// This component displays the number and the latest like done by user
 const LikedBy = ({item, navigation}) => {
   const {getFavourites} = useFavourite();
   const {getUserById} = useUser();

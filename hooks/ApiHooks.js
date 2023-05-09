@@ -2,6 +2,7 @@ import {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import {appId, baseUrl} from '../utils/Variables';
 
+// Method for fetching the data from the api
 const doFetch = async (url, options) => {
   const response = await fetch(url, options);
   const json = await response.json();
@@ -14,7 +15,9 @@ const doFetch = async (url, options) => {
   return json;
 };
 
+// Method for using authentication
 const useAuthentication = () => {
+  // Method for logging in
   const postLogin = async (userCredentials) => {
     const options = {
       method: 'post',
@@ -34,7 +37,9 @@ const useAuthentication = () => {
   return {postLogin};
 };
 
+// Method for using users details.
 const useUser = () => {
+  // Method for checking if the username is available in registeration form
   const checkUser = async (userName) => {
     try {
       const userAvailability = await doFetch(
@@ -46,6 +51,7 @@ const useUser = () => {
     }
   };
 
+  // Method for getting user details through token
   const checkUserByToken = async (token) => {
     const options = {
       method: 'GET',
@@ -59,6 +65,7 @@ const useUser = () => {
     }
   };
 
+  // Method for registering new user
   const registerUser = async (userDetails) => {
     const options = {
       method: 'post',
@@ -75,6 +82,7 @@ const useUser = () => {
     }
   };
 
+  // Method for getting user details by using user id
   const getUserById = async (token, id) => {
     const options = {
       method: 'GET',
@@ -90,6 +98,7 @@ const useUser = () => {
     }
   };
 
+  // Method for editing user details
   const putUser = async (data, token) => {
     const options = {
       method: 'put',
@@ -115,6 +124,7 @@ const useMedia = (myFilesOnly) => {
   const [mediaArray, setMediaArray] = useState([]);
   const {update, user} = useContext(MainContext);
 
+  // Method for fetching all medias from api
   const loadMedia = async () => {
     try {
       // const media = await useTag().getFilesByTag(appId);
@@ -134,6 +144,7 @@ const useMedia = (myFilesOnly) => {
     }
   };
 
+  // Method for adding new post.
   const postMedia = async (token, fileData) => {
     console.log('postMedia:', token);
     const options = {
@@ -152,6 +163,7 @@ const useMedia = (myFilesOnly) => {
     }
   };
 
+  // Method for searching media
   const searchMedia = async (token, searchDetails) => {
     console.log('searchDeails: ', searchDetails);
     const options = {
@@ -175,6 +187,8 @@ const useMedia = (myFilesOnly) => {
       console.log('searchMedia: ', error.message);
     }
   };
+
+  // Method for getting the list of post done by a user
   const userMedia = async (userId) => {
     try {
       // const media = await useTag().getFilesByTag(appId);
@@ -245,7 +259,9 @@ const useMedia = (myFilesOnly) => {
   };
 };
 
+// Method for using tag features
 const useTag = () => {
+  // Method for fetching files using tag
   const getFilesByTag = async (tag) => {
     try {
       return await doFetch(baseUrl + 'tags/' + tag);
@@ -254,6 +270,7 @@ const useTag = () => {
     }
   };
 
+  // Method for posting new tags
   const postTag = async (token, tag) => {
     const options = {
       method: 'POST',
@@ -272,7 +289,9 @@ const useTag = () => {
   return {getFilesByTag, postTag};
 };
 
+// Method for using favourites features
 const useFavourite = () => {
+  // Method for adding new favourites
   const postFavourite = async (token, fileId) => {
     const options = {
       method: 'POST',
@@ -290,6 +309,7 @@ const useFavourite = () => {
     }
   };
 
+  // Method for deleting new favourites
   const deleteFavourite = async (token, fileId) => {
     const options = {
       method: 'DELETE',
@@ -308,6 +328,7 @@ const useFavourite = () => {
     }
   };
 
+  // Method for getting list of favourites
   const getFavourites = async (fileId) => {
     try {
       const result = await doFetch(baseUrl + 'favourites/file/' + fileId);
@@ -320,7 +341,9 @@ const useFavourite = () => {
   return {postFavourite, deleteFavourite, getFavourites};
 };
 
+// Method for using comment features
 const useComment = () => {
+  // Method for posting new comment
   const postComment = async (token, data) => {
     const options = {
       method: 'POST',
@@ -338,6 +361,7 @@ const useComment = () => {
     }
   };
 
+  // Method for deleting comment
   const deleteComment = async (token, fileId) => {
     const options = {
       method: 'Delete',
@@ -353,6 +377,7 @@ const useComment = () => {
     }
   };
 
+  // Method for getting comments according to id
   const getCommentsById = async (fileId) => {
     try {
       const comments = await doFetch(baseUrl + 'comments/file/' + fileId);
@@ -364,7 +389,9 @@ const useComment = () => {
   return {postComment, deleteComment, getCommentsById};
 };
 
+// MEthods for using rating features
 const useRating = () => {
+  // Method for adding new rating
   const postRating = async (token, data) => {
     const options = {
       method: 'POST',
@@ -382,6 +409,7 @@ const useRating = () => {
     }
   };
 
+  // Method for deleting rating
   const deleteRating = async (token, fileId) => {
     const options = {
       method: 'DELETE',
@@ -397,6 +425,7 @@ const useRating = () => {
     }
   };
 
+  // Method for getting ratind by Id
   const getRatingById = async (fileId) => {
     try {
       const result = await doFetch(baseUrl + 'ratings/file/' + fileId);

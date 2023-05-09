@@ -3,6 +3,7 @@ import {View, StyleSheet} from 'react-native';
 import Lottie from 'lottie-react-native';
 import PropTypes from 'prop-types';
 
+// This is the header component which displays the app logo and option to open drawer naviagte
 const Header = ({navigation}) => {
   return (
     <View style={styles.container}>

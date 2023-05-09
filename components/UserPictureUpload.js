@@ -9,6 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm} from 'react-hook-form';
 
+// This component is used to change the avatar and background of the picture.
 const UserPictureUpload = ({navigation, imageChangeType}) => {
   const [loading, setLoading] = useState(false);
   const [mediaFile, setMediaFile] = useState({});
@@ -34,6 +35,7 @@ const UserPictureUpload = ({navigation, imageChangeType}) => {
     info = 'Background Picture Updated';
   }
 
+  // Method for selecting file to upload
   const selectFile = async () => {
     try {
       const file = await ImagePicker.launchImageLibraryAsync({
@@ -56,6 +58,7 @@ const UserPictureUpload = ({navigation, imageChangeType}) => {
     setMediaFile({});
   };
 
+  // Method for uploading the file
   const uploadFile = async (data) => {
     setLoading(true);
     const formData = new FormData();
