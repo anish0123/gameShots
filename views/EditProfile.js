@@ -2,7 +2,14 @@ import React, {useContext, useState} from 'react';
 import {Button, Card, Input} from '@rneui/base';
 import PropTypes from 'prop-types';
 import {Controller, useForm} from 'react-hook-form';
-import {Alert, Dimensions} from 'react-native';
+import {
+  Alert,
+  Dimensions,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useUser} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContext';
@@ -76,165 +83,186 @@ const EditProfile = ({navigation, route}) => {
   };
 
   return (
-    <Card
-      containerStyle={{
-        backgroundColor: '',
-        margin: 0,
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: '#000000',
       }}
     >
-      <Card.Image
-        source={{uri: uploadsUrl + fileName}}
-        style={{
-          flexDirection: 'column',
-          justifyContent: 'center',
-          marginHorizontal: Dimensions.get('screen').width / 2 - 110,
-          width: 200,
-          height: 200,
-          marginBottom: 20,
-          borderRadius: 200 / 2,
-          borderWidth: 2,
-          borderColor: 'black',
-        }}
-      ></Card.Image>
-      <Controller
-        control={control}
-        rules={{
-          validate: checkUsername,
-        }}
-        render={({field: {onChange, onBlur, value}}) => (
-          <Input
-            inputContainerStyle={{
-              borderWidth: 1,
-              borderColor: 'green',
-              borderRadius: 7,
-              width: '100%',
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+        <ScrollView
+          style={{
+            backgroundColor: '#000000',
+            marginTop: 20,
+            marginLeft: 10,
+            marginRight: 10,
+          }}
+        >
+          <Card.Image
+            source={{uri: uploadsUrl + fileName}}
+            style={{
+              flexDirection: 'column',
               justifyContent: 'center',
-              marginTop: 20,
-              padding: 5,
+              marginHorizontal: Dimensions.get('screen').width / 2 - 110,
+              width: 200,
+              height: 200,
+              marginBottom: 20,
+              borderRadius: 200 / 2,
+              borderWidth: 2,
+              borderColor: '#FFEA00',
             }}
-            placeholder="Username"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            defaultValue={value}
-            autoCapitalize="none"
-            errorMessage={errors.username && errors.username.message}
+            onPress={() => {
+              navigation.navigate('ChangeUserPicture', 'avatar');
+            }}
+          ></Card.Image>
+          <Controller
+            control={control}
+            rules={{
+              validate: checkUsername,
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <Input
+                inputContainerStyle={{
+                  borderWidth: 1,
+                  borderColor: '#FFEA00',
+                  borderRadius: 7,
+                  width: '100%',
+                  justifyContent: 'center',
+                  marginTop: 20,
+                  padding: 5,
+                  backgroundColor: 'white',
+                }}
+                placeholder="Username"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                defaultValue={value}
+                autoCapitalize="none"
+                errorMessage={errors.username && errors.username.message}
+              />
+            )}
+            name="username"
           />
-        )}
-        name="username"
-      />
 
-      <Controller
-        control={control}
-        rules={{
-          pattern: {
-            value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w\w+)+$/,
-            message: 'Provide valid email address',
-          },
-        }}
-        render={({field: {onChange, onBlur, value}}) => (
-          <Input
-            inputContainerStyle={{
+          <Controller
+            control={control}
+            rules={{
+              pattern: {
+                value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w\w+)+$/,
+                message: 'Provide valid email address',
+              },
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <Input
+                inputContainerStyle={{
+                  borderWidth: 1,
+                  borderColor: '#FFEA00',
+                  borderRadius: 7,
+                  width: '100%',
+                  justifyContent: 'center',
+                  padding: 5,
+                  backgroundColor: 'white',
+                }}
+                placeholder="Email"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                defaultValue={value}
+                autoCapitalize="none"
+                errorMessage={errors.email && errors.email.message}
+              />
+            )}
+            name="email"
+          />
+
+          <Controller
+            control={control}
+            rules={{
+              pattern: {
+                value: /(?=.*\p{Lu})(?=.*[0-9]).{5,}/u,
+                message:
+                  'min 5 characters, one number and one uppercase letter',
+              },
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <Input
+                inputContainerStyle={{
+                  borderWidth: 1,
+                  borderColor: '#FFEA00',
+                  borderRadius: 7,
+                  width: '100%',
+                  justifyContent: 'center',
+                  padding: 5,
+                  backgroundColor: 'white',
+                }}
+                placeholder="Password (Optional)"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                defaultValue={value}
+                autoCapitalize="none"
+                errorMessage={errors.password && errors.password.message}
+              />
+            )}
+            name="password"
+          />
+
+          <Controller
+            control={control}
+            rules={{
+              validate: (value) => {
+                if (value === getValues('password')) {
+                  return true;
+                } else {
+                  return 'Password do not match';
+                }
+              },
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <Input
+                inputContainerStyle={{
+                  borderWidth: 1,
+                  borderColor: '#FFEA00',
+                  borderRadius: 7,
+                  width: '100%',
+                  justifyContent: 'center',
+                  padding: 5,
+                  backgroundColor: 'white',
+                }}
+                placeholder="Confirm Password (Optional)"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                secureTextEntry={true}
+                autoCapitalize="none"
+                errorMessage={
+                  errors.confirmPassword && errors.confirmPassword.message
+                }
+              />
+            )}
+            name="confirmPassword"
+          />
+
+          <Button
+            loading={loading}
+            title="Save Changes"
+            buttonStyle={{
+              backgroundColor: '#6fdc6f',
+              borderColor: 'black',
               borderWidth: 1,
-              borderColor: 'green',
-              borderRadius: 7,
-              width: '100%',
-              justifyContent: 'center',
-              padding: 5,
+              borderRadius: 20,
             }}
-            placeholder="Email"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            defaultValue={value}
-            autoCapitalize="none"
-            errorMessage={errors.email && errors.email.message}
-          />
-        )}
-        name="email"
-      />
-
-      <Controller
-        control={control}
-        rules={{
-          pattern: {
-            value: /(?=.*\p{Lu})(?=.*[0-9]).{5,}/u,
-            message: 'min 5 characters, one number and one uppercase letter',
-          },
-        }}
-        render={({field: {onChange, onBlur, value}}) => (
-          <Input
-            inputContainerStyle={{
-              borderWidth: 1,
-              borderColor: 'green',
-              borderRadius: 7,
-              width: '100%',
-              justifyContent: 'center',
-              padding: 5,
+            type="outline"
+            titleStyle={{color: 'black', fontSize: 20}}
+            containerStyle={{
+              padding: 10,
+              width: Dimensions.get('screen').width / 2,
+              marginHorizontal: Dimensions.get('screen').width / 5,
             }}
-            placeholder="Password (Optional)"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            defaultValue={value}
-            autoCapitalize="none"
-            errorMessage={errors.password && errors.password.message}
-          />
-        )}
-        name="password"
-      />
-
-      <Controller
-        control={control}
-        rules={{
-          validate: (value) => {
-            if (value === getValues('password')) {
-              return true;
-            } else {
-              return 'Password do not match';
-            }
-          },
-        }}
-        render={({field: {onChange, onBlur, value}}) => (
-          <Input
-            inputContainerStyle={{
-              borderWidth: 1,
-              borderColor: 'green',
-              borderRadius: 7,
-              width: '100%',
-              justifyContent: 'center',
-              padding: 5,
-            }}
-            placeholder="Confirm Password (Optional)"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            secureTextEntry={true}
-            autoCapitalize="none"
-            errorMessage={
-              errors.confirmPassword && errors.confirmPassword.message
-            }
-          />
-        )}
-        name="confirmPassword"
-      />
-
-      <Button
-        loading={loading}
-        title="Save Changes"
-        buttonStyle={{
-          backgroundColor: '#6fdc6f',
-          borderColor: 'black',
-          borderWidth: 1,
-          borderRadius: 20,
-        }}
-        type="outline"
-        titleStyle={{color: 'black', fontSize: 20}}
-        containerStyle={{
-          padding: 10,
-          width: Dimensions.get('screen').width / 2,
-          marginHorizontal: Dimensions.get('screen').width / 5,
-        }}
-        onPress={handleSubmit(modifyProfile)}
-      ></Button>
-    </Card>
+            onPress={handleSubmit(modifyProfile)}
+          ></Button>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 

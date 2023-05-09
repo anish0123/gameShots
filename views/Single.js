@@ -2,7 +2,13 @@ import {Icon, ListItem as RNEListItem, Text} from '@rneui/themed';
 import PropTypes from 'prop-types';
 import Owner from '../components/Owner';
 import Like from '../components/Like';
-import {StyleSheet, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  ScrollView,
+  SafeAreaView,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import FileDetails from '../components/FileDetails';
 import AddComment from '../components/AddComment';
 import Comments from '../components/Comments';
@@ -34,27 +40,33 @@ const Single = ({navigation, route}) => {
   }, [update]);
 
   return (
-    <ScrollView style={styles.main}>
-      <Owner item={item} navigation={navigation} />
-      <FileDetails item={post} navigation={navigation} />
-      <Text style={styles.text}>
-        Added: {moment(item.time_added).fromNow()}
-      </Text>
-      <LikedBy item={item} navigation={navigation} />
-      <RNEListItem containerStyle={{backgroundColor: '#000000'}}>
-        <Like item={item} />
-        {item.user_id === user.user_id && (
-          <Icon
-            name="edit"
-            color="#ffffff"
-            onPress={() => navigation.navigate('EditPost', item)}
-          />
-        )}
-      </RNEListItem>
-      <AddComment item={post} />
-      <Text style={styles.title}>Comments</Text>
-      <Comments item={post} />
-    </ScrollView>
+    <SafeAreaView style={{flex: 1}}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+        <ScrollView style={styles.main}>
+          <Owner item={item} navigation={navigation} />
+          <FileDetails item={post} navigation={navigation} />
+          <Text style={styles.text}>
+            Added: {moment(item.time_added).fromNow()}
+          </Text>
+          <LikedBy item={item} navigation={navigation} />
+          <RNEListItem containerStyle={{backgroundColor: '#000000'}}>
+            <Like item={item} />
+            {item.user_id === user.user_id && (
+              <Icon
+                name="edit"
+                color="#ffffff"
+                onPress={() => navigation.navigate('EditPost', item)}
+              />
+            )}
+          </RNEListItem>
+          <AddComment item={post} />
+          <Text style={styles.title}>Comments</Text>
+          <Comments item={post} />
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 
@@ -63,7 +75,6 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     borderWidth: 2,
     borderColor: '#5A5A5A',
-    flex: 1,
     backgroundColor: '#000000',
   },
   text: {
