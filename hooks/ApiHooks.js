@@ -364,4 +364,57 @@ const useComment = () => {
   return {postComment, deleteComment, getCommentsById};
 };
 
-export {useAuthentication, useUser, useMedia, useTag, useFavourite, useComment};
+const useRating = () => {
+  const postRating = async (token, data) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+    try {
+      const result = await doFetch(baseUrl + 'ratings', options);
+      return result;
+    } catch (error) {
+      console.log('postRating: ', error.message);
+    }
+  };
+
+  const deleteRating = async (token, fileId) => {
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    try {
+      const result = await doFetch(baseUrl + 'ratings/file/' + fileId, options);
+      return result;
+    } catch (error) {
+      console.log('deleteRating: ', error.message);
+    }
+  };
+
+  const getRatingById = async (fileId) => {
+    try {
+      const result = await doFetch(baseUrl + 'ratings/file/' + fileId);
+      return result;
+    } catch (error) {
+      console.log('getRatingById: ', error.message);
+    }
+  };
+
+  return {postRating, deleteRating, getRatingById};
+};
+
+export {
+  useAuthentication,
+  useUser,
+  useMedia,
+  useTag,
+  useFavourite,
+  useComment,
+  useRating,
+};

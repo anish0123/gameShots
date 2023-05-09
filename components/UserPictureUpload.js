@@ -1,5 +1,5 @@
 import {Button, Card} from '@rneui/themed';
-import {ScrollView, View} from 'react-native';
+import {Alert, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
 import {useContext, useRef, useState} from 'react';
 import {useMedia, useTag} from '../hooks/ApiHooks';
@@ -26,6 +26,13 @@ const UserPictureUpload = ({navigation, imageChangeType}) => {
     },
     mode: 'onChange',
   });
+  let info = '';
+
+  if (imageChangeType === 'avatar') {
+    info = 'Profile Picture Updated';
+  } else {
+    info = 'Background Picture Updated';
+  }
 
   const selectFile = async () => {
     try {
@@ -77,18 +84,29 @@ const UserPictureUpload = ({navigation, imageChangeType}) => {
       const tagResult = await postTag(token, appTag);
       console.log('uploadResult: ', uploadResult);
       console.log('tagResult: ', tagResult);
-      setUpdate(!update);
-      navigation.navigate('Profile', user);
-      resetValues();
+
+      Alert.alert(info, 'File id : ' + uploadResult.file_id, [
+        {
+          text: 'ok',
+          onPress: () => {
+            console.log('Ok Pressed');
+            setUpdate(!update);
+            navigation.navigate('Profile', user);
+            resetValues();
+          },
+        },
+      ]);
     } catch (error) {
-      console.log('uploadFile: ', error.message);
+      console.error('File upload error', error);
+    } finally {
+      setLoading(false);
+      setUpdate(!update);
     }
-    setLoading(false);
   };
 
   return (
-    <ScrollView style={{backgroundColor: '#000000'}}>
-      <Card>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#000000'}}>
+      <ScrollView style={styles.scrollView}>
         {mediaFile.type == 'video' ? (
           <Video
             ref={video}
@@ -107,22 +125,44 @@ const UserPictureUpload = ({navigation, imageChangeType}) => {
             style={{width: '100%', height: 250}}
           />
         )}
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <Button style={{paddingRight: 50}} onPress={resetValues}>
+        <View style={styles.buttonView}>
+          <Button buttonStyle={styles.button} onPress={resetValues}>
             Reset
           </Button>
           <Button
             onPress={handleSubmit(uploadFile)}
             loading={loading}
             disabled={!mediaFile.uri || errors.title || errors.description}
+            buttonStyle={styles.button}
           >
             Upload
           </Button>
         </View>
-      </Card>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  scrollView: {
+    marginTop: '20%',
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  buttonView: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginRight: '15%',
+    marginTop: '10%',
+  },
+  button: {
+    backgroundColor: '#62BD69',
+    borderColor: 'black',
+    borderRadius: 20,
+    marginLeft: '25%',
+  },
+});
 
 UserPictureUpload.propTypes = {
   navigation: PropTypes.object,

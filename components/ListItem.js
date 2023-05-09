@@ -17,7 +17,11 @@ const ListItem = ({navigation, singleItem}) => {
       <FileDetails item={item} navigation={navigation} />
       <RNEListItem containerStyle={{backgroundColor: '#000000'}}>
         <Like item={item} />
-        <Icon name="comment" color="#ffffff" />
+        <Icon
+          name="comment"
+          color="#ffffff"
+          onPress={() => navigation.navigate('Single', item)}
+        />
         {item.user_id === user.user_id && (
           <Icon
             name="edit"

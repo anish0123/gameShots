@@ -1,4 +1,4 @@
-import {Dimensions, View} from 'react-native';
+import {Alert, Dimensions, View} from 'react-native';
 import {Controller, useForm} from 'react-hook-form';
 import {Button, Input} from '@rneui/themed';
 import {useContext, useState} from 'react';
@@ -34,6 +34,15 @@ const LoginForm = () => {
       setIsLoggedIn(true);
     } catch (error) {
       console.log(error);
+      Alert.alert(
+        'Incorrect username or password',
+        'Please try with correct credentials',
+        [
+          {
+            text: 'Ok',
+          },
+        ]
+      );
     } finally {
       setLoading(false);
     }
@@ -101,6 +110,7 @@ const LoginForm = () => {
               placeholder="Password"
               onBlur={onBlur}
               onChangeText={onChange}
+              secureTextEntry
               value={value}
               autoCapitalize="none"
               errorMessage={errors.username && errors.username.message}

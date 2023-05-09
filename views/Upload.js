@@ -1,6 +1,6 @@
 import {Button, Card, Input} from '@rneui/themed';
 import {Controller, useForm} from 'react-hook-form';
-import {Dimensions, SafeAreaView, ScrollView, View} from 'react-native';
+import {Alert, Dimensions, SafeAreaView, ScrollView, View} from 'react-native';
 import {useMedia, useTag} from '../hooks/ApiHooks';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -85,11 +85,35 @@ const Upload = ({navigation}) => {
       const tagResult = await postTag(token, appTag);
       console.log('uploadResult: ', uploadResult);
       console.log('tagResult: ', tagResult);
-      setUpdate(!update);
-      navigation.navigate('Home');
-      resetValues();
+      Alert.alert(
+        'Upload Confirmation',
+        mediaFile.type + ' uploaded successfully',
+        [
+          {
+            text: 'OK',
+            onPress: () => {
+              console.log('OK Pressed');
+              // update 'update' state in context
+              setUpdate(!update);
+              // reset form
+              resetValues();
+              // TODO: navigated to home;
+              navigation.navigate('Home');
+            },
+          },
+        ]
+      );
     } catch (error) {
       console.log('uploadFile: ', error.message);
+      Alert.alert(
+        'Upload Failed!',
+        'Please try again with correct credentials',
+        [
+          {
+            text: 'Ok',
+          },
+        ]
+      );
     }
     setLoading(false);
   };
