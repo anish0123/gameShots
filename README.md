@@ -10,7 +10,7 @@
 1. [Features](#Features)
 2. [Installation](#Installation)
 3. [Technology used](#Technology%20used)
-4. [Contributors](#Contributors)
+4. [Contributor](#Contributor)
 
 ## Features
 - Create an account or login to an existing account.
