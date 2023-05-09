@@ -1,5 +1,5 @@
 import {Button, Card} from '@rneui/themed';
-import {ScrollView, View} from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
 import {useContext, useRef, useState} from 'react';
 import {useMedia, useTag} from '../hooks/ApiHooks';
@@ -87,8 +87,8 @@ const UserPictureUpload = ({navigation, imageChangeType}) => {
   };
 
   return (
-    <ScrollView style={{backgroundColor: '#000000'}}>
-      <Card>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#000000'}}>
+      <ScrollView style={styles.scrollView}>
         {mediaFile.type == 'video' ? (
           <Video
             ref={video}
@@ -107,22 +107,44 @@ const UserPictureUpload = ({navigation, imageChangeType}) => {
             style={{width: '100%', height: 250}}
           />
         )}
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <Button style={{paddingRight: 50}} onPress={resetValues}>
+        <View style={styles.buttonView}>
+          <Button buttonStyle={styles.button} onPress={resetValues}>
             Reset
           </Button>
           <Button
             onPress={handleSubmit(uploadFile)}
             loading={loading}
             disabled={!mediaFile.uri || errors.title || errors.description}
+            buttonStyle={styles.button}
           >
             Upload
           </Button>
         </View>
-      </Card>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  scrollView: {
+    marginTop: '20%',
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  buttonView: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginRight: '15%',
+    marginTop: '10%',
+  },
+  button: {
+    backgroundColor: '#62BD69',
+    borderColor: 'black',
+    borderRadius: 20,
+    marginLeft: '25%',
+  },
+});
 
 UserPictureUpload.propTypes = {
   navigation: PropTypes.object,
