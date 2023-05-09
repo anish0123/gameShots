@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Text} from '@rneui/themed';
 import PropTypes from 'prop-types';
 import {useEffect, useState} from 'react';
 import {View} from 'react-native';

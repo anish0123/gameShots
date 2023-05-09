@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import SingleUserPost from './SingleUserPost';
 import Lottie from 'lottie-react-native';
 
+// THis component lists all the posts done by the user
 const UserPostList = ({navigation, mediaArray, owner}) => {
   return (
     <>

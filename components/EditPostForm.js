@@ -1,5 +1,5 @@
-import React, {Component, useEffect} from 'react';
-import {Card, Image, Input, Button} from '@rneui/themed';
+import React from 'react';
+import {Image, Input, Button} from '@rneui/themed';
 import PropTypes from 'prop-types';
 import {Controller, useForm} from 'react-hook-form';
 import {
@@ -16,7 +16,6 @@ import {Icon} from '@rneui/base';
 import {MainContext} from '../contexts/MainContext';
 import {useMedia} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/Variables';
-import Header from './Header';
 
 // This component is used to edit file info in editPost view.
 const EditPostForm = ({item, navigation}) => {

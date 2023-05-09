@@ -3,6 +3,7 @@ import {View} from 'react-native';
 import PropTypes from 'prop-types';
 import Owner from './Owner';
 
+// This component displays the details of the user that is in the likeduser list
 const SingleUser = ({SingleUser, navigation}) => {
   console.log('singleUser: ', SingleUser.item);
   const item = SingleUser.item;

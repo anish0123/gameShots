@@ -5,12 +5,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
 
+// THis component displays the likes and add function to like and dislike the post
 const Like = ({item}) => {
   const {postFavourite, deleteFavourite, getFavourites} = useFavourite();
   const {update, user, updateLike, setUpdateLike} = useContext(MainContext);
   const [userLikesIt, setUserLikesIt] = useState(false);
   const [likes, setLikes] = useState([]);
 
+  // Method for fetching all the likes according to the file
   const fetchFavourites = async () => {
     try {
       const likes = await getFavourites(item.file_id);
@@ -29,6 +31,8 @@ const Like = ({item}) => {
       console.log('fetchFavourites: ', error.message);
     }
   };
+
+  // Method for adding favourites
   const addFavourite = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
@@ -41,6 +45,7 @@ const Like = ({item}) => {
     }
   };
 
+  // Method for removing favourites
   const removeFavourite = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
@@ -52,6 +57,7 @@ const Like = ({item}) => {
       console.log('addFavourite: ', error.message);
     }
   };
+
 
   useEffect(() => {
     fetchFavourites();

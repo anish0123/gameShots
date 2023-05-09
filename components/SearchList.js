@@ -2,6 +2,7 @@ import {FlatList} from 'react-native';
 import PropTypes from 'prop-types';
 import SingleSearch from './SingleSearch';
 
+// This component the list of files which matches search description
 const SearchList = ({navigation, searchList}) => {
   return (
     <FlatList

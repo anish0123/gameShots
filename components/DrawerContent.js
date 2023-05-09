@@ -8,12 +8,14 @@ import {uploadsUrl} from '../utils/Variables';
 import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// THis component is used in drawer navigation
 const DrawerContent = (props) => {
   const {user, setIsLoggedIn} = useContext(MainContext);
   const [avatar, setAvatar] = useState('');
   const {getFilesByTag} = useTag();
   const {mediaArray} = useMedia();
 
+  // Method to load the avatar of logged in user
   const loadAvatar = async () => {
     try {
       const avatarArray = await getFilesByTag('avatar' + user.user_id);
@@ -36,6 +38,7 @@ const DrawerContent = (props) => {
     }
   };
 
+  // use effect for loading the user avatar
   useEffect(() => {
     loadAvatar();
   }, [mediaArray, user]);
