@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Text} from '@rneui/themed';
-import PropTypes, {object} from 'prop-types';
+import PropTypes from 'prop-types';
 import {useContext, useEffect, useState} from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
 import {useFavourite, useUser} from '../hooks/ApiHooks';
 

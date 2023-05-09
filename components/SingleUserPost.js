@@ -14,6 +14,7 @@ const SingleUserPost = ({navigation, item}) => {
             width: Dimensions.get('screen').width / 2 - 2,
             height: Dimensions.get('screen').width / 2 - 2,
           }}
+          onPress={() => navigation.navigate('Single', item)}
         />
       ) : (
         <Card.Image
@@ -23,6 +24,7 @@ const SingleUserPost = ({navigation, item}) => {
             width: Dimensions.get('screen').width / 2 - 2,
             height: Dimensions.get('screen').width / 2 - 2,
           }}
+          onPress={() => navigation.navigate('Single', item)}
         />
       )}
     </View>

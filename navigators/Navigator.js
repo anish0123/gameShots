@@ -14,6 +14,7 @@ import DrawerContent from '../components/DrawerContent';
 import ChangeUserPicture from '../views/ChangeUserPicture';
 import EditProfile from '../views/EditProfile';
 import EditPost from '../views/EditPost';
+import UserWhoLiked from '../views/UsersWhoLiked';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -92,6 +93,7 @@ const StackScreen = () => {
           />
           <Stack.Screen name="EditProfile" component={EditProfile} />
           <Stack.Screen name="EditPost" component={EditPost} />
+          <Stack.Screen name="UserWhoLiked" component={UserWhoLiked} />
         </>
       ) : (
         <Stack.Screen

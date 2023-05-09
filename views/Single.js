@@ -40,7 +40,7 @@ const Single = ({navigation, route}) => {
       <Text style={styles.text}>
         Added: {moment(item.time_added).fromNow()}
       </Text>
-      <LikedBy item={item} />
+      <LikedBy item={item} navigation={navigation} />
       <RNEListItem containerStyle={{backgroundColor: '#000000'}}>
         <Like item={item} />
         {item.user_id === user.user_id && (
