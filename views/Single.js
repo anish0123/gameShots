@@ -10,6 +10,7 @@ import {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import {useMedia} from '../hooks/ApiHooks';
 import moment from 'moment';
+import LikedBy from '../components/LikedBy';
 
 const Single = ({navigation, route}) => {
   const item = route.params;
@@ -39,6 +40,7 @@ const Single = ({navigation, route}) => {
       <Text style={styles.text}>
         Added: {moment(item.time_added).fromNow()}
       </Text>
+      <LikedBy item={item} />
       <RNEListItem containerStyle={{backgroundColor: '#000000'}}>
         <Like item={item} />
         {item.user_id === user.user_id && (
