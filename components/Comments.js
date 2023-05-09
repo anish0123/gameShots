@@ -1,4 +1,3 @@
-import {Text} from '@rneui/themed';
 import {StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
 import {useComment} from '../hooks/ApiHooks';
@@ -7,11 +6,13 @@ import {MainContext} from '../contexts/MainContext';
 import SingleComment from './SingleComment';
 import Lottie from 'lottie-react-native';
 
+// This component is created to list out all the comments in the post
 const Comments = ({item}) => {
   const {getCommentsById} = useComment();
   const [comments, setComments] = useState([]);
   const {updateComment, update} = useContext(MainContext);
 
+  // Method to fetch comments from the api
   const getComments = async () => {
     try {
       const result = await getCommentsById(item.file_id);
@@ -21,6 +22,7 @@ const Comments = ({item}) => {
     }
   };
 
+  // use effect for fetching the comments when the state changes
   useEffect(() => {
     getComments();
   }, [updateComment, update, item]);

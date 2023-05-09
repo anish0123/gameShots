@@ -3,6 +3,7 @@ import {View} from 'react-native';
 import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/Variables';
 
+// This component displays the details of post that's in search list.
 const SingleSearch = ({navigation, singleItem}) => {
   const item = singleItem.item;
   return (

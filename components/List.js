@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {useMedia} from '../hooks/ApiHooks';
 import ListItem from './ListItem';
 
+// This component lists out the posts in the home page
 const List = ({navigation, myFilesOnly = false}) => {
   const {mediaArray} = useMedia(myFilesOnly);
   return (

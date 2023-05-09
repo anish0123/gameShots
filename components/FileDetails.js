@@ -5,6 +5,7 @@ import {useRef} from 'react';
 import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {uploadsUrl} from '../utils/Variables';
 
+// This component is used to print out the details of the post
 const FileDetails = ({navigation, item}) => {
   const video = useRef(null);
   return (

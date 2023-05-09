@@ -1,10 +1,11 @@
 import {Button, Input} from '@rneui/themed';
 import {useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
-import {Dimensions, View} from 'react-native';
+import {Alert, Dimensions, View} from 'react-native';
 import {useUser} from '../hooks/ApiHooks';
 import Lottie from 'lottie-react-native';
 
+// THis component is used to register new users in the app
 const RegisterationForm = () => {
   const [loading, setLoading] = useState(false);
   const {checkUser, registerUser} = useUser();
@@ -13,6 +14,7 @@ const RegisterationForm = () => {
     control,
     handleSubmit,
     getValues,
+    reset,
     formState: {errors},
   } = useForm({
     defaultValues: {
@@ -25,6 +27,7 @@ const RegisterationForm = () => {
     mode: 'onChange',
   });
 
+  // Method for the checking username is available
   const checkUsername = async (username) => {
     try {
       const userAvailability = await checkUser(username);
@@ -34,14 +37,44 @@ const RegisterationForm = () => {
     }
   };
 
+  // Method for registering new users
   const register = async (userDetails) => {
     setLoading(true);
     delete userDetails.confirmPassword;
     try {
       const registerResult = await registerUser(userDetails);
-      return registerResult;
+      console.log('register: ', registerResult);
+      Alert.alert('Registered successfully.', 'UserName and Password Created', [
+        {
+          text: 'OK',
+          onPress: () => {
+            reset({
+              username: '',
+              password: '',
+              confirmPassword: '',
+              email: '',
+              full_name: '',
+            });
+          },
+        },
+      ]);
     } catch (error) {
       console.log('register: ', error.message);
+      Alert.alert(
+        'User Registeration Failed',
+        'Please try again with valid credentials',
+        [
+          {
+            text: 'OK',
+            onPress: () => {
+              reset({
+                password: '',
+                confirmPassword: '',
+              });
+            },
+          },
+        ]
+      );
     } finally {
       setLoading(false);
     }
@@ -117,6 +150,7 @@ const RegisterationForm = () => {
             placeholder="Password"
             onBlur={onBlur}
             onChangeText={onChange}
+            secureTextEntry
             value={value}
             autoCapitalize="none"
             errorMessage={errors.password && errors.password.message}
@@ -147,6 +181,7 @@ const RegisterationForm = () => {
             placeholder="Confirm Password"
             onBlur={onBlur}
             onChangeText={onChange}
+            secureTextEntry
             value={value}
             autoCapitalize="none"
             errorMessage={
@@ -220,6 +255,13 @@ const RegisterationForm = () => {
           backgroundColor: '#97EF53',
           borderRadius: 5,
         }}
+        disabled={
+          errors.username ||
+          errors.password ||
+          errors.confirmPassword ||
+          errors.email ||
+          errors.full_name
+        }
         onPress={handleSubmit(register)}
         type="outline"
         loading={loading}

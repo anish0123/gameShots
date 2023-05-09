@@ -1,4 +1,4 @@
-import {Dimensions, View} from 'react-native';
+import {Alert, Dimensions, View} from 'react-native';
 import {Controller, useForm} from 'react-hook-form';
 import {Button, Input} from '@rneui/themed';
 import {useContext, useState} from 'react';
@@ -7,6 +7,7 @@ import {useAuthentication} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Lottie from 'lottie-react-native';
 
+// This component is the login form for logging in user
 const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const {postLogin} = useAuthentication();
@@ -22,6 +23,7 @@ const LoginForm = () => {
     },
   });
 
+  // Method for logging in 
   const logIn = async (logInData) => {
     setLoading(true);
     console.log('Login Button pressed');
@@ -34,6 +36,15 @@ const LoginForm = () => {
       setIsLoggedIn(true);
     } catch (error) {
       console.log(error);
+      Alert.alert(
+        'Incorrect username or password',
+        'Please try with correct credentials',
+        [
+          {
+            text: 'Ok',
+          },
+        ]
+      );
     } finally {
       setLoading(false);
     }
@@ -101,6 +112,7 @@ const LoginForm = () => {
               placeholder="Password"
               onBlur={onBlur}
               onChangeText={onChange}
+              secureTextEntry
               value={value}
               autoCapitalize="none"
               errorMessage={errors.username && errors.username.message}

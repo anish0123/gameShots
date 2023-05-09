@@ -1,5 +1,5 @@
 import {Button, Card} from '@rneui/themed';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import {Alert, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
 import {useContext, useRef, useState} from 'react';
 import {useMedia, useTag} from '../hooks/ApiHooks';
@@ -9,6 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm} from 'react-hook-form';
 
+// This component is used to change the avatar and background of the picture.
 const UserPictureUpload = ({navigation, imageChangeType}) => {
   const [loading, setLoading] = useState(false);
   const [mediaFile, setMediaFile] = useState({});
@@ -26,7 +27,15 @@ const UserPictureUpload = ({navigation, imageChangeType}) => {
     },
     mode: 'onChange',
   });
+  let info = '';
 
+  if (imageChangeType === 'avatar') {
+    info = 'Profile Picture Updated';
+  } else {
+    info = 'Background Picture Updated';
+  }
+
+  // Method for selecting file to upload
   const selectFile = async () => {
     try {
       const file = await ImagePicker.launchImageLibraryAsync({
@@ -49,6 +58,7 @@ const UserPictureUpload = ({navigation, imageChangeType}) => {
     setMediaFile({});
   };
 
+  // Method for uploading the file
   const uploadFile = async (data) => {
     setLoading(true);
     const formData = new FormData();
@@ -77,13 +87,24 @@ const UserPictureUpload = ({navigation, imageChangeType}) => {
       const tagResult = await postTag(token, appTag);
       console.log('uploadResult: ', uploadResult);
       console.log('tagResult: ', tagResult);
-      setUpdate(!update);
-      navigation.navigate('Profile', user);
-      resetValues();
+
+      Alert.alert(info, 'File id : ' + uploadResult.file_id, [
+        {
+          text: 'ok',
+          onPress: () => {
+            console.log('Ok Pressed');
+            setUpdate(!update);
+            navigation.navigate('Profile', user);
+            resetValues();
+          },
+        },
+      ]);
     } catch (error) {
-      console.log('uploadFile: ', error.message);
+      console.error('File upload error', error);
+    } finally {
+      setLoading(false);
+      setUpdate(!update);
     }
-    setLoading(false);
   };
 
   return (

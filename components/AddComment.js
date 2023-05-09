@@ -4,13 +4,14 @@ import {useContext, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useComment} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContext';
-import {StyleSheet} from 'react-native';
 
+// This component is created for adding comments in the post
 const AddComment = ({item}) => {
   const [value, setValue] = useState('');
   const {postComment} = useComment();
   const {setUpdateComment, updateComment} = useContext(MainContext);
 
+  // Method to add comment
   const addComment = async () => {
     const data = {
       comment: value,
