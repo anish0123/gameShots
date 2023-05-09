@@ -9,6 +9,8 @@ import Comments from '../components/Comments';
 import {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import {useMedia} from '../hooks/ApiHooks';
+import moment from 'moment';
+import LikedBy from '../components/LikedBy';
 
 const Single = ({navigation, route}) => {
   const item = route.params;
@@ -35,6 +37,10 @@ const Single = ({navigation, route}) => {
     <ScrollView style={styles.main}>
       <Owner item={item} navigation={navigation} />
       <FileDetails item={post} navigation={navigation} />
+      <Text style={styles.text}>
+        Added: {moment(item.time_added).fromNow()}
+      </Text>
+      <LikedBy item={item} navigation={navigation} />
       <RNEListItem containerStyle={{backgroundColor: '#000000'}}>
         <Like item={item} />
         {item.user_id === user.user_id && (
@@ -46,7 +52,7 @@ const Single = ({navigation, route}) => {
         )}
       </RNEListItem>
       <AddComment item={post} />
-      <Text style={styles.text}>Comments</Text>
+      <Text style={styles.title}>Comments</Text>
       <Comments item={post} />
     </ScrollView>
   );
@@ -61,8 +67,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
   },
   text: {
-    paddingLeft: 20,
-    paddingTop: 5,
+    paddingLeft: 30,
+    paddingTop: 10,
+    fontSize: 15,
+    color: '#ffffff',
+    marginBottom: 10,
+  },
+  title: {
+    paddingLeft: 30,
+    paddingTop: 10,
     fontSize: 20,
     fontWeight: 'bold',
     color: '#ffffff',
