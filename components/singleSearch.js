@@ -1,5 +1,5 @@
 import {Avatar, Text} from '@rneui/themed';
-import {View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/Variables';
 
@@ -7,7 +7,7 @@ import {uploadsUrl} from '../utils/Variables';
 const SingleSearch = ({navigation, singleItem}) => {
   const item = singleItem.item;
   return (
-    <View
+    <TouchableOpacity
       style={{
         flex: 1,
         flexDirection: 'row',
@@ -17,6 +17,7 @@ const SingleSearch = ({navigation, singleItem}) => {
         margin: 10,
         backgroundColor: '#ffffff',
       }}
+      onPress={() => navigation.navigate('Single', item)}
     >
       <Avatar
         source={{uri: uploadsUrl + item.thumbnails?.w160}}
@@ -31,7 +32,7 @@ const SingleSearch = ({navigation, singleItem}) => {
         <Text style={{fontSize: 20, fontWeight: 'bold'}}>{item.title}</Text>
         <Text numberOfLines={2}>{item.description}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
