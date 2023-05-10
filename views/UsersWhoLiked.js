@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PropTypes from 'prop-types';
 import {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {SafeAreaView, ScrollView, View} from 'react-native';
 import UsersList from '../components/UsersList';
 import {useUser} from '../hooks/ApiHooks';
 
@@ -40,9 +40,9 @@ const UserWhoLiked = ({route, navigation}) => {
   }, []);
 
   return (
-    <View>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#000000'}}>
       <UsersList userArray={userArray} navigation={navigation} />
-    </View>
+    </SafeAreaView>
   );
 };
 
