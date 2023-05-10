@@ -58,7 +58,6 @@ const Like = ({item}) => {
     }
   };
 
-
   useEffect(() => {
     fetchFavourites();
   }, [updateLike, update, item]);

@@ -18,6 +18,7 @@ import {useMedia} from '../hooks/ApiHooks';
 import moment from 'moment';
 import LikedBy from '../components/LikedBy';
 
+// This view is created to view the details of the post
 const Single = ({navigation, route}) => {
   const item = route.params;
   const {user, update} = useContext(MainContext);
@@ -25,6 +26,7 @@ const Single = ({navigation, route}) => {
   const {loadSingleMedia} = useMedia();
   console.log('single: ', item);
 
+  // Method for loading the clicked post
   const singleMedia = async () => {
     try {
       const result = await loadSingleMedia(item.file_id);

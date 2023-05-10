@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     borderRadius: 120 / 2,
     backgroundColor: '#000000',
     borderWidth: 2,
-    borderColor: '#FFEA00',
+    borderColor: '#72EB3A',
   },
   profile: {
     paddingLeft: 20,

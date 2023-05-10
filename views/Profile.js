@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import UserPostList from '../components/UserPostList';
 import Header from '../components/Header';
 
+// This view displays the user profile
 const Profile = ({navigation, myFilesOnly = false, route}) => {
   const clickedUser = route.params;
   console.log('profile', clickedUser);
@@ -18,6 +19,7 @@ const Profile = ({navigation, myFilesOnly = false, route}) => {
   const [avatar, setAvatar] = useState('');
   const [media, setMedia] = useState([]);
 
+  // Method for getting the background image of the user
   const getBackgroundImage = async () => {
     try {
       const backgroundImageArray = await getFilesByTag(
@@ -35,6 +37,7 @@ const Profile = ({navigation, myFilesOnly = false, route}) => {
     }
   };
 
+  // Method for loading the avatar
   const loadAvatar = async () => {
     try {
       const avatarArray = await getFilesByTag('avatar' + clickedUser.user_id);
@@ -46,6 +49,7 @@ const Profile = ({navigation, myFilesOnly = false, route}) => {
     }
   };
 
+  // Method for getting all the posts posted by the user
   const getMediaByUser = async () => {
     try {
       const fetchMedia = await userMedia(clickedUser.user_id);
@@ -84,14 +88,14 @@ const Profile = ({navigation, myFilesOnly = false, route}) => {
         source={{uri: uploadsUrl + avatar}}
         containerStyle={{
           position: 'absolute',
-          top: 180,
+          top: 220,
           marginLeft: 15,
           width: 120,
           height: 120,
           borderRadius: 120 / 2,
           backgroundColor: '#000000',
           borderWidth: 2,
-          borderColor: '#FFEA00',
+          borderColor: '#8E43ED',
         }}
         onPress={() => {
           if (clickedUser.user_id === user.user_id) {

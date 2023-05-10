@@ -19,6 +19,7 @@ import {MainContext} from '../contexts/MainContext';
 import {appId} from '../utils/Variables';
 import Header from '../components/Header';
 
+// This view is used for uploading pictures / videos in the app
 const Upload = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [mediaFile, setMediaFile] = useState({});
@@ -70,6 +71,7 @@ const Upload = ({navigation}) => {
     }
   };
 
+  // Method for selecting file from the library
   const selectFile = async () => {
     try {
       const file = await ImagePicker.launchImageLibraryAsync({
@@ -90,11 +92,13 @@ const Upload = ({navigation}) => {
     }
   };
 
+  // Method for reseting the form values
   const resetValues = () => {
     setMediaFile({});
     reset();
   };
 
+  // Method for uploading the file 
   const uploadFile = async (data) => {
     setLoading(true);
     const formData = new FormData();

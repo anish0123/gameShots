@@ -5,12 +5,14 @@ import {View} from 'react-native';
 import UsersList from '../components/UsersList';
 import {useUser} from '../hooks/ApiHooks';
 
+// This view displays the list of users that have liked the post
 const UserWhoLiked = ({route, navigation}) => {
   const likes = route.params;
   const {getUserById} = useUser();
   const [userArray, setUserArray] = useState([]);
   const ryArray = [];
 
+  // Method for getting the owner of the post
   const getOwner = async (like) => {
     try {
       const token = await AsyncStorage.getItem('userToken');

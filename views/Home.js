@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import List from '../components/List';
 import Header from '../components/Header';
 
+// This is the landing page of the application.
 const Home = ({navigation}) => {
   return (
     <SafeAreaView style={{backgroundColor: '#000000'}}>

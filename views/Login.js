@@ -7,11 +7,13 @@ import RegisterationForm from '../components/RegisterationForm';
 import {MainContext} from '../contexts/MainContext';
 import {useUser} from '../hooks/ApiHooks';
 
+// This view is created so that user is able to log in or register in the application
 const Login = () => {
   const [toggleForm, setToggleForm] = useState(true);
   const {checkUserByToken} = useUser();
   const {setUser, setIsLoggedIn} = useContext(MainContext);
 
+  // Method for checking the user by the saved token
   const userCheck = async () => {
     try {
       const userToken = await AsyncStorage.getItem('userToken');

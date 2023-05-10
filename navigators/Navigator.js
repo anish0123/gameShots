@@ -16,9 +16,11 @@ import EditProfile from '../views/EditProfile';
 import EditPost from '../views/EditPost';
 import UserWhoLiked from '../views/UsersWhoLiked';
 
+// This is the file for navigation in the application.
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
+// Method for creating the drawer screens for the drawer navigator.
 const DrawerScreen = () => {
   return (
     <Drawer.Navigator
@@ -75,6 +77,7 @@ const DrawerScreen = () => {
   );
 };
 
+// Method for creating the stack screen for the app
 const StackScreen = () => {
   const {isLoggedIn} = useContext(MainContext);
   return (
@@ -106,6 +109,7 @@ const StackScreen = () => {
   );
 };
 
+// Creating the navigation container to store all the screens
 const Navigator = () => {
   return (
     <NavigationContainer>

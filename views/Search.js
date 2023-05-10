@@ -13,6 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import SearchList from '../components/SearchList';
 import Header from '../components/Header';
 
+// This view is created for users to search for the post
 const Search = ({navigation}) => {
   const [value, setValue] = useState('');
   const [searchList, setSearchList] = useState([]);
